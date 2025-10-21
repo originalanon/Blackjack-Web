@@ -1,13 +1,19 @@
 ﻿@page
 @model Blackjack.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Blackjack Deck Viewer";
+    ViewData["Title"] = "Blackjack";
 }
 
-<h1>Blackjack Deck Viewer</h1>
+<h1>Blackjack</h1>
 
 <form method="post">
     <button type="submit" asp-page-handler="Build">Build Deck</button>
 </form>
+
+<form method="post">
+    <button type="submit" asp-page-handler="Deal">Start Hand</button>
+</form>
+
+
 
 <textarea style="width:100%;height:300px;" readonly>@Model.DeckText</textarea>

@@ -20,10 +20,17 @@ public class IndexModel : PageModel
         DeckText = _factory.CreateDeckText();
     }
 
-    //build a deck, then get the values of it -- see service
+    //build a deck, then get the values of it -- see DeckFactory service
     public IActionResult OnPostBuild()
     {
         DeckText = _factory.CreateDeckText();
+        return Page();
+    }
+
+    public async Task<IActionResult> OnPostDeal()
+    {
+        
+
         return Page();
     }
 }
