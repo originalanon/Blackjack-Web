@@ -43,4 +43,6 @@ public class Deck
         return $"Deck: [{string.Join("\n ", _cards)}]";
     }
 
+    //A deck is just a stack, so just pop from the top ;) -- I love when OOP works out like this lol
+    public Card Draw() => _cards.Pop();
 }
