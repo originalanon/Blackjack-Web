@@ -1,9 +1,10 @@
 using System;
 
+//TODO: Document this file
 namespace blackjack;
 
 public enum Suit { Clubs, Diamonds, Hearts, Spades }
-public enum Rank { Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace}
+public enum Rank { Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace }
 
 //Class extension for Ranks, because Ten, Jack, Queen, and King all have a value of 10 and C# thinks thinks all the face-cards
 //should be "Ten" because of that
@@ -19,6 +20,7 @@ public static class RankExtension
         };
 }
 
+//TODO: Add variables for different card types (holographic, foil, prismatic?)
 public class Card
 {
     public Rank Rank { get; set; }

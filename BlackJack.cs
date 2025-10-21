@@ -8,9 +8,11 @@ namespace BlackJack
     {
         public static void Main(string[] args)
         {
-            Card testCard = new Card(Rank.King, Suit.Hearts);
+            //Card testCard = new Card(Rank.King, Suit.Hearts);
+            //Console.Out.WriteLine(testCard.ToString());
 
-            Console.Out.WriteLine(testCard.ToString());
+            Deck deck = new Deck();
+            Console.WriteLine(deck.ToString());
         }
     }
 }

@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/home/lindsay/Documents/Repos/blackjack/blackjack.csproj": {}
+    "C:\\Users\\linds\\Documents\\Repos\\Blackjack\\blackjack\\blackjack.csproj": {}
   },
   "projects": {
-    "/home/lindsay/Documents/Repos/blackjack/blackjack.csproj": {
+    "C:\\Users\\linds\\Documents\\Repos\\Blackjack\\blackjack\\blackjack.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/lindsay/Documents/Repos/blackjack/blackjack.csproj",
+        "projectUniqueName": "C:\\Users\\linds\\Documents\\Repos\\Blackjack\\blackjack\\blackjack.csproj",
         "projectName": "blackjack",
-        "projectPath": "/home/lindsay/Documents/Repos/blackjack/blackjack.csproj",
-        "packagesPath": "/home/lindsay/.nuget/packages/",
-        "outputPath": "/home/lindsay/Documents/Repos/blackjack/obj/",
+        "projectPath": "C:\\Users\\linds\\Documents\\Repos\\Blackjack\\blackjack\\blackjack.csproj",
+        "packagesPath": "C:\\Users\\linds\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\linds\\Documents\\Repos\\Blackjack\\blackjack\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/lindsay/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\linds\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "/usr/lib/dotnet/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,7 +38,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.100"
+        "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
         "net9.0": {
@@ -60,7 +59,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
