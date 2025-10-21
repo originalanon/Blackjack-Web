@@ -1,6 +1,6 @@
 using System;
 
-namespace Blackjack.Core.classes;
+namespace Blackjack.Core;
 
 public class Hand
 {

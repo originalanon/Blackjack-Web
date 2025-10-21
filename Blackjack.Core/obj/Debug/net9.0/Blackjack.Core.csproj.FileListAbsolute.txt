@@ -1,0 +1,12 @@
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\bin\Debug\net9.0\Blackjack.Core.deps.json
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\bin\Debug\net9.0\Blackjack.Core.dll
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\bin\Debug\net9.0\Blackjack.Core.pdb
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.AssemblyInfoInputs.cache
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.AssemblyInfo.cs
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.csproj.CoreCompileInputs.cache
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.sourcelink.json
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.dll
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\refint\Blackjack.Core.dll
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\Blackjack.Core.pdb
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Core\obj\Debug\net9.0\ref\Blackjack.Core.dll
