@@ -36,6 +36,7 @@ public class Deck
         { int j = _rng.Next(i + 1); (list[i], list[j]) = (list[j], list[i]); }
     }
 
+    //String override to print cards each on one line so it's readable
     public override string ToString()
     {
         return $"Deck: [{string.Join("\n ", _cards)}]";
