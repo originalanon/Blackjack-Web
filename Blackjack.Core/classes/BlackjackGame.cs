@@ -9,6 +9,11 @@ public sealed class BlackjackGame
     private readonly Player _player = new();
     private readonly Dealer _dealer = new();
 
+    //public for UI
+    public IReadOnlyList<Card> PlayerCards => _player.Hand.Cards;
+    public IReadOnlyList<Card> DealerCards => _dealer.Hand.Cards;
+    public Deck RemainingDeck => _deck;
+
     public BlackjackGame(int decks = 1) => _deck = new Deck(decks);
 
     public void DealInitial()

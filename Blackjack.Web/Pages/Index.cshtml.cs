@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Blackjack.Core; 
+using Blackjack.Core;
+using Blackjack.Web.Models;
 
 namespace Blackjack.Web.Pages;
 
@@ -19,6 +20,7 @@ public class IndexModel : PageModel
 
     //On post, start the game
     //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
+
     public IActionResult OnPostStart()
     {
         game.DealInitial();

@@ -5,9 +5,13 @@ namespace Blackjack.Core;
 public sealed class Hand
 {
     private readonly List<Card> _cards = new();
+    //Public for UI
     public IReadOnlyList<Card> Cards => _cards;
 
     public void Add(Card c) => _cards.Add(c);
+    
+    //Clear the hand
+    public void Clear() => _cards.Clear();
 
     //Treat aces as 11, but then 1 as needed
     public int BestValue()
