@@ -48,4 +48,41 @@ public sealed class BlackjackGame
     //TODO: Double-down, split
     //TODO: Update score
     //TODO: Post-hand "store" for rare cards
+
+
+    //Helper functions for post calls in the web app
+    //Get the player's hand
+    public string PlayerHandText() =>
+    string.Join(", ", _player.Hand.Cards);
+
+    public int PlayerHandTotal()
+    {
+        int total = 0;
+
+        for (int i = 0; i < _player.Hand.Cards.Count; i++)
+        {
+            total += _player.Hand.Cards[i].Rank.GetValue();
+        }
+
+        return total;
+    }
+
+    //Dealer's hand, which only reveals the dealer's face-down card (hole card, I've learned) later
+    public string DealerHandText(bool revealHole = false)
+    {
+        if (revealHole)
+        {
+            return string.Join(", ", _dealer.Hand.Cards);
+        }
+
+        if (_dealer.Hand.Cards.Count == 0)
+        {
+            return "";
+        }
+
+        var first = _dealer.Hand.Cards[0];
+        var restHidden = _dealer.Hand.Cards.Count > 1 ? ", [hole card]" : "";
+        return $"{first}{restHidden}";
+    }
 }
+

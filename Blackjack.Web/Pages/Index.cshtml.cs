@@ -1,35 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Blackjack.Web.Services;
+using Blackjack.Core; 
 
 namespace Blackjack.Web.Pages;
 
 public class IndexModel : PageModel
 {
-    private readonly DeckFactory _factory;
-    public IndexModel(DeckFactory factory) => _factory = factory;
+    // Values to render
+    public string PlayerHand { get; private set; } = "";
+    public string DealerHand { get; private set; } = "";
+    public string Message { get; private set; } = "";
+    public string Score { get; private set; } = "";
 
-    [BindProperty(SupportsGet = true)]
+    public void OnGet() { }
 
-    //Get the text from the cards in the deck
-    public string DeckText { get; private set; } = string.Empty;
 
-    public void OnGet()
+    //On post, start the game
+    //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
+    public IActionResult OnPostStart()
     {
-        //Show initial deck on load
-        DeckText = _factory.CreateDeckText();
-    }
+        var game = new BlackjackGame(decks: 1);
+        game.DealInitial();
 
-    //build a deck, then get the values of it -- see DeckFactory service
-    public IActionResult OnPostBuild()
-    {
-        DeckText = _factory.CreateDeckText();
-        return Page();
-    }
-
-    public async Task<IActionResult> OnPostDeal()
-    {
-        
+        PlayerHand = game.PlayerHandText();
+        DealerHand = game.DealerHandText(revealHole: false);
+        Score = game.PlayerHandTotal().ToString();
+        Message = "Game start!";
 
         return Page();
     }
