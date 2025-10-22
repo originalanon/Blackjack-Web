@@ -13,6 +13,8 @@ public class Deck
     private readonly Stack<Card> _cards = new();
     private static readonly Random _rng = new();
 
+    public IEnumerable<Card> TopToBottom() => _cards;
+
     public Deck(int decks = 1)
     {
         //List of cards
@@ -47,11 +49,12 @@ public class Deck
     public Card Draw() => _cards.Pop();
 
     //Replace pre-loaded deck with either a deck from a previously saved game, OR with a Funny(tm) deck in the future ;)
-    public void ReplaceDeck(IEnumerable<Card> newCards)
+    public void ReplaceDeck(IEnumerable<Card> topToBottom)
     {
         _cards.Clear();
 
-        var list = new List<Card>(newCards);
+        //Debug
+        var list = topToBottom is IList<Card> il ? il : topToBottom.ToList();
 
         //Push backwards bc it's a stack
         for (int i = list.Count - 1; i >= 0; i--)

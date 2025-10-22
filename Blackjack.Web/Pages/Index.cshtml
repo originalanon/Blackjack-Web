@@ -18,14 +18,14 @@
         <div>
             <h3>Player</h3>
             <p><strong>@Model.CardScore</strong></p>
-            @if (int.Parse(@Model.CardScore) < 21){
+            @if (@Model.CardScore < 21){
                 
                 <form method="post">
                     <button type="submit" asp-page-handler="PlayerHit">Hit</button>
                     <button type="submit" asp-page-handler="PlayerStand">Stand</button>
                 </form>
             }
-            else if(int.Parse(@Model.CardScore) == 21){
+            else if(@Model.CardScore == 21){
                 <p>Blackjack!</p>  
             }
             else{

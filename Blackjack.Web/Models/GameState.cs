@@ -10,7 +10,7 @@ public class GameState
 {
     public List<Card> PlayerCards { get; set; } = new();
     public List<Card> DealersCards { get; set; } = new();
-    public Stack<Card> RemainingDeck { get; set; } = new();
+    public List<Card> RemainingDeck { get; set; } = new();
 
     public int PlayerScore { get; set; } = new();
 }

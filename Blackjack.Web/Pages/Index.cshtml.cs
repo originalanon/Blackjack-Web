@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Blackjack.Core;
 using Blackjack.Web.Models;
+using static Blackjack.Web.SessionExtensions;
+using Blackjack.Web.Services;
 
 namespace Blackjack.Web.Pages;
 
@@ -12,11 +14,10 @@ public class IndexModel : PageModel
     public string DealerHand { get; private set; } = "";
     public string Message { get; private set; } = "";
     //Renamed bc "Score" should mean player score, not cards value
-    public string CardScore { get; private set; } = "";
+    public int? CardScore { get; private set; }
     public int PlayerScore { get; private set; } = 0;
 
-
-    public BlackjackGame game = new BlackjackGame(decks: 1);
+    private const string SessionKey = "BLACKJACK_STATE";
 
     public void OnGet() { }
 
@@ -26,11 +27,18 @@ public class IndexModel : PageModel
 
     public IActionResult OnPostStart()
     {
+
+        BlackjackGame game = new BlackjackGame(decks: 1);
+        GameState state = GameStateMapper.ToState(game);
+
+        //Set game state on start
+        HttpContext.Session.SetJson(SessionKey, state);
+
         game.DealInitial();
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: false);
-        CardScore = game.PlayerHandTotal().ToString();
+        CardScore = game.PlayerHandTotal();
         Message = "Game start!";
 
         return Page();
@@ -39,13 +47,47 @@ public class IndexModel : PageModel
 
     public IActionResult OnPostPlayerHit()
     {
-        game.PlayerHit();
+        var state = HttpContext.Session.GetJson<GameState>("BLACKJACK_STATE");
+        if (state == null)
+        {
+            Message = "No game in progress.";
+            return Page();
+        }
+
+        var game = GameStateMapper.FromState(state);
+        var busted = game.PlayerHit();
+
+        HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
+
+        PlayerHand = game.PlayerHandText();
+        DealerHand = game.DealerHandText(false);
+        Message = busted ? "Bust!" : "Hit or stand?";
+        
         return Page();
     }
 
     //TODO: Player Stand should reveal the Dealer's hand
     public IActionResult OnPostPlayerStand()
     {
+        var state = HttpContext.Session.GetJson<GameState>(SessionKey);
+        //Adding this so VS Code stops yelling, but it shouldn't be possible to try to stand if there's no game going -- the button
+        //to Stand is locked behind if the card total is less than 21 or not
+        if (state == null)
+        {
+            Message = "Error! Null state.";
+            return Page();
+        }
+        
+        var game = GameStateMapper.FromState(state);
+        var outcome = game.ResolveAfterPlayerStand();
+
+        HttpContext.Session.Remove(SessionKey);
+
+        PlayerHand = game.PlayerHandText();
+        DealerHand = game.DealerHandText(revealHole: true);
+        Message = outcome.ToString();
+
+
         return Page();
     }
 
