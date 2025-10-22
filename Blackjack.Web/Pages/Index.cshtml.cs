@@ -44,4 +44,8 @@ public class IndexModel : PageModel
         return Page();
     }
 
+    //TODO: Split
+    //TODO: Double-down
+    //TODO: Bet?
+
 }
