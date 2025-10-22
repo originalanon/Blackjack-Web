@@ -11,7 +11,10 @@ public class IndexModel : PageModel
     public string PlayerHand { get; private set; } = "";
     public string DealerHand { get; private set; } = "";
     public string Message { get; private set; } = "";
-    public string Score { get; private set; } = "";
+    //Renamed bc "Score" should mean player score, not cards value
+    public string CardScore { get; private set; } = "";
+    public int PlayerScore { get; private set; } = 0;
+
 
     public BlackjackGame game = new BlackjackGame(decks: 1);
 
@@ -27,7 +30,7 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: false);
-        Score = game.PlayerHandTotal().ToString();
+        CardScore = game.PlayerHandTotal().ToString();
         Message = "Game start!";
 
         return Page();

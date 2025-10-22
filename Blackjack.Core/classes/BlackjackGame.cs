@@ -94,12 +94,15 @@ public sealed class BlackjackGame
 
     //Replace existing, pre-loaded cards and deck with saved ones
     //This is called in GameStateMapper
-    
-    public void LoadFrom(IEnumerable<Card> playerCards, IEnumerable<Card> dealerCards, IEnumerable<Card> remainingDeck)
+
+    public void LoadFrom(IEnumerable<Card> playerCards, IEnumerable<Card> dealerCards, IEnumerable<Card> remainingDeck, int PlayerScore)
     {
         //Clear exisiting hands so they can be replaced
         _player.Hand.Clear();
         _dealer.Hand.Clear();
+
+        //Set player's current score to their saved one
+        _player.Score = PlayerScore;
 
         //Replace
         foreach (var card in playerCards) _player.Receive(card);

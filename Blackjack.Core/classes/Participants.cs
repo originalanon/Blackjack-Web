@@ -15,6 +15,12 @@ public class Player : IParticipant
 {
     public int Score { get; set; }
 
+    //Add (or subtract, if passed a negative) to the player's score
+    private void AddSubtractPlayerScore(int amount)
+    {
+        Score += amount;
+    }
+
     //I want to do multiplayer later, so here's an ID and a username
     //TODO: Implement PlayerID and Username
     public Guid PlayerId { get; set; }

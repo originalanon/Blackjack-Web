@@ -19,7 +19,7 @@ public class GameStateMapper
     private static BlackjackGame FromState(GameState state)
     {
         var game = new BlackjackGame(1);
-        game.LoadFrom(state.PlayerCards, state.DealersCards, state.RemainingDeck);
+        game.LoadFrom(state.PlayerCards, state.DealersCards, state.RemainingDeck, state.PlayerScore);
         return game;
 
     }

@@ -13,18 +13,20 @@
 @if (!string.IsNullOrWhiteSpace(Model.Message))
 {
     <p><strong>@Model.Message</strong></p>
+    <p>Player Score: @Model.PlayerScore</p>
     <div class="stack">
         <div>
             <h3>Player</h3>
-            <p><strong>@Model.Score</strong></p>
-            @if (int.Parse(@Model.Score) < 21){
+            <p><strong>@Model.CardScore</strong></p>
+            @if (int.Parse(@Model.CardScore) < 21){
+                
                 <form method="post">
                     <button type="submit" asp-page-handler="PlayerHit">Hit</button>
                     <button type="submit" asp-page-handler="PlayerStand">Stand</button>
                 </form>
             }
-            else if(int.Parse(@Model.Score) == 21){
-                <p>Blackjack!</p>
+            else if(int.Parse(@Model.CardScore) == 21){
+                <p>Blackjack!</p>  
             }
             else{
                 <p>Bust!</p>
