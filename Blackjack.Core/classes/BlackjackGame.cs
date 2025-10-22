@@ -55,6 +55,8 @@ public sealed class BlackjackGame
     public string PlayerHandText() =>
     string.Join(", ", _player.Hand.Cards);
 
+
+    //Get player hand total to display on UI
     public int PlayerHandTotal()
     {
         int total = 0;

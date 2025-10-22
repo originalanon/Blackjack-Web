@@ -12,6 +12,8 @@ public class IndexModel : PageModel
     public string Message { get; private set; } = "";
     public string Score { get; private set; } = "";
 
+    public BlackjackGame game = new BlackjackGame(decks: 1);
+
     public void OnGet() { }
 
 
@@ -19,7 +21,6 @@ public class IndexModel : PageModel
     //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
     public IActionResult OnPostStart()
     {
-        var game = new BlackjackGame(decks: 1);
         game.DealInitial();
 
         PlayerHand = game.PlayerHandText();
@@ -29,4 +30,18 @@ public class IndexModel : PageModel
 
         return Page();
     }
+
+
+    public IActionResult OnPostPlayerHit()
+    {
+        game.PlayerHit();
+        return Page();
+    }
+
+    //TODO: Player Stand should reveal the Dealer's hand
+    public IActionResult OnPostPlayerStand()
+    {
+        return Page();
+    }
+
 }

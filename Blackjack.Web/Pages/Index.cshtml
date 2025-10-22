@@ -17,6 +17,21 @@
         <div>
             <h3>Player</h3>
             <p><strong>@Model.Score</strong></p>
+            @if (int.Parse(@Model.Score) < 21){
+                <form method="post">
+                    <button type="submit" asp-page-handler="PlayerHit">Hit</button>
+                    <button type="submit" asp-page-handler="PlayerStand">Stand</button>
+                </form>
+            }
+            else if(int.Parse(@Model.Score) == 21){
+                <p>Blackjack!</p>
+            }
+            else{
+                <p>Bust!</p>
+                <form method="post">
+                    <button type="submit" asp-page-handler="Start">Play again</button>
+                </form>
+            }
             <textarea readonly style="width:100%;height:100px;">@Model.PlayerHand</textarea>
         </div>
         <div>
