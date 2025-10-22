@@ -45,4 +45,18 @@ public class Deck
 
     //A deck is just a stack, so just pop from the top ;) -- I love when OOP works out like this lol
     public Card Draw() => _cards.Pop();
+
+    //Replace pre-loaded deck with either a deck from a previously saved game, OR with a Funny(tm) deck in the future ;)
+    public void ReplaceDeck(IEnumerable<Card> newCards)
+    {
+        _cards.Clear();
+
+        var list = new List<Card>(newCards);
+
+        //Push backwards bc it's a stack
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            _cards.Push(list[i]);
+        }
+    }
 }

@@ -91,5 +91,23 @@ public sealed class BlackjackGame
         var restHidden = _dealer.Hand.Cards.Count > 1 ? ", [hole card]" : "";
         return $"{first}{restHidden}";
     }
+
+    //Replace existing, pre-loaded cards and deck with saved ones
+    //This is called in GameStateMapper
+    
+    public void LoadFrom(IEnumerable<Card> playerCards, IEnumerable<Card> dealerCards, IEnumerable<Card> remainingDeck)
+    {
+        //Clear exisiting hands so they can be replaced
+        _player.Hand.Clear();
+        _dealer.Hand.Clear();
+
+        //Replace
+        foreach (var card in playerCards) _player.Receive(card);
+        foreach (var card in dealerCards) _dealer.Receive(card);
+
+        _deck.ReplaceDeck(remainingDeck);
+    }
+
+
 }
 
