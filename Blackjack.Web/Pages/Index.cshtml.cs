@@ -68,7 +68,6 @@ public class IndexModel : PageModel
         return Page();
     }
 
-    //TODO: Player Stand should reveal the Dealer's hand
     public IActionResult OnPostPlayerStand()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);

@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Blackjack.Core;
 
@@ -9,9 +10,24 @@ public sealed class Hand
     public IReadOnlyList<Card> Cards => _cards;
 
     public void Add(Card c) => _cards.Add(c);
-    
+
     //Clear the hand
     public void Clear() => _cards.Clear();
+
+    //Is the hand splittable? Splittable when the "first two cards are of the same denomination"
+    public bool IsSplittable()
+    {
+        bool sameDenom = (_cards[0].Rank == _cards[1].Rank) ? true : false;
+
+        return sameDenom;
+    }
+    
+    //Is the hand double-down-able? The first two cards need to sum to 9, 10, or 11
+    public bool IsDouble()
+    {
+        bool doubled = (_cards[0].Rank.GetValue() + _cards[1].Rank.GetValue()) is 9 or 10 or 11 ? true : false;
+        return doubled;
+    }
 
     //Treat aces as 11, but then 1 as needed
     public int BestValue()
