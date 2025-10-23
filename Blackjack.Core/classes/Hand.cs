@@ -13,22 +13,7 @@ public sealed class Hand
 
     //Clear the hand
     public void Clear() => _cards.Clear();
-
-    //Is the hand splittable? Splittable when the "first two cards are of the same denomination"
-    public bool IsSplittable()
-    {
-        bool sameDenom = (_cards[0].Rank == _cards[1].Rank) ? true : false;
-
-        return sameDenom;
-    }
     
-    //Is the hand double-down-able? The first two cards need to sum to 9, 10, or 11
-    public bool IsDouble()
-    {
-        bool doubled = (_cards[0].Rank.GetValue() + _cards[1].Rank.GetValue()) is 9 or 10 or 11 ? true : false;
-        return doubled;
-    }
-
     //Treat aces as 11, but then 1 as needed
     public int BestValue()
     {
@@ -45,6 +30,12 @@ public sealed class Hand
         return total;
     }
 
+
+    //Is the hand splittable? Splittable when the "first two cards are of the same denomination"
+    public bool IsSplittable => _cards[0].Rank == _cards[1].Rank;
+
+    //Is the hand double-down-able? The first two cards need to sum to 9, 10, or 11
+    public bool IsDouble => (_cards[0].Rank.GetValue() + _cards[1].Rank.GetValue()) is 9 or 10 or 11;
 
     public bool IsBlackjack => _cards.Count == 2 && BestValue() == 21;
     public bool IsBust => BestValue() > 21;

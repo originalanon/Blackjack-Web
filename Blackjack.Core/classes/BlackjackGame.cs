@@ -27,6 +27,7 @@ public sealed class BlackjackGame
 
     public enum Outcome { PlayerBlackjack, DealerBlackjack, PlayerBust, DealerBust, PlayerWin, DealerWin, Push }
 
+    //After player stands, resolve which win (or lose) condition from Outcome enum
     public Outcome ResolveAfterPlayerStand()
     {
         if (_player.Hand.IsBlackjack && _dealer.Hand.IsBlackjack) return Outcome.Push;
@@ -54,12 +55,12 @@ public sealed class BlackjackGame
     //TODO: Update score
     //TODO: Post-hand "store" for rare cards
 
-
     //Helper functions for post calls in the web app
     //Get the player's hand
     public string PlayerHandText() =>
     string.Join(", ", _player.Hand.Cards);
 
+    
 
     //Get player hand total to display on UI
     public int PlayerHandTotal()
