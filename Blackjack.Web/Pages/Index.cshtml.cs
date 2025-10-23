@@ -17,6 +17,9 @@ public class IndexModel : PageModel
     public int? CardScore { get; private set; }
     public int PlayerScore { get; private set; } = 0;
 
+    public bool PlayerHandDouble { get; private set; } = false;
+    public bool PlayerHandSplittable { get; private set; } = false;
+
     private const string SessionKey = "BLACKJACK_STATE";
 
     public void OnGet() { }
@@ -40,6 +43,10 @@ public class IndexModel : PageModel
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: false);
         CardScore = game.PlayerHandTotal();
+
+        PlayerHandSplittable = game.PlayerHandSplittable();
+        PlayerHandDouble = game.PlayerHandDouble();
+
         Message = "Game start!";
 
         return Page();
@@ -62,7 +69,11 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(false);
-        CardScore  = game.PlayerHandTotal();
+        CardScore = game.PlayerHandTotal();
+        
+        PlayerHandSplittable = game.PlayerHandSplittable();
+        PlayerHandDouble = game.PlayerHandDouble();
+
         Message = busted ? "Bust!" : "Hit or stand?";
         
         return Page();

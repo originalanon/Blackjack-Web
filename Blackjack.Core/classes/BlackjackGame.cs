@@ -14,6 +14,10 @@ public sealed class BlackjackGame
     public IReadOnlyList<Card> DealerCards => _dealer.Hand.Cards;
     public Deck RemainingDeck => _deck;
 
+    //More UI helpers -- these two for wheteher or not the "Split" and "Double Down" buttons should display
+    public bool PlayerHandSplittable() => _player.Hand.IsSplittable;
+    public bool PlayerHandDouble() => _player.Hand.IsDouble;
+
     public BlackjackGame(int decks = 1) => _deck = new Deck(decks);
 
     public void DealInitial()
@@ -59,8 +63,6 @@ public sealed class BlackjackGame
     //Get the player's hand
     public string PlayerHandText() =>
     string.Join(", ", _player.Hand.Cards);
-
-    
 
     //Get player hand total to display on UI
     public int PlayerHandTotal()

@@ -23,6 +23,15 @@
                 <form method="post">
                     <button type="submit" asp-page-handler="PlayerHit">Hit</button>
                     <button type="submit" asp-page-handler="PlayerStand">Stand</button>
+                    <!-- Display the Double Down btn if true -->
+                    @if(@Model.PlayerHandDouble){
+                        <button type="submit" asp-page-handler="PlayerDouble">Double Down</button>
+                    }
+
+                    @if(@Model.PlayerHandSplittable){
+                        <button type="submit" asp-page-handler="PlayerSplit">Split</button>
+                    }
+
                 </form>
             }
             else if(@Model.CardScore == 21){
