@@ -29,12 +29,13 @@ public class IndexModel : PageModel
     {
 
         BlackjackGame game = new BlackjackGame(decks: 1);
+
+        game.DealInitial();
+
         GameState state = GameStateMapper.ToState(game);
 
         //Set game state on start
         HttpContext.Session.SetJson(SessionKey, state);
-
-        game.DealInitial();
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: false);
@@ -61,6 +62,7 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(false);
+        CardScore  = game.PlayerHandTotal();
         Message = busted ? "Bust!" : "Hit or stand?";
         
         return Page();
@@ -85,6 +87,7 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: true);
+        CardScore  = game.PlayerHandTotal();
         Message = outcome.ToString();
 
 
