@@ -12,5 +12,11 @@ public class GameState
     public List<Card> DealersCards { get; set; } = new();
     public List<Card> RemainingDeck { get; set; } = new();
 
+    //Player's second hand; null unless split
+    public List<Card>? PlayerB { get; set; }
+
     public int PlayerScore { get; set; } = new();
+    
+    //Player's active hand
+    public int ActiveHandIndex { get; set; }
 }

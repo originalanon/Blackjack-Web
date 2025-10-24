@@ -11,6 +11,9 @@ public sealed class Hand
 
     public void Add(Card c) => _cards.Add(c);
 
+    //Remove card at index (used to remove second card after split so it can be put into the new hand)
+    public void RemoveAt(int index) => _cards.RemoveAt(index);
+
     //Clear the hand
     public void Clear() => _cards.Clear();
 
@@ -23,7 +26,7 @@ public sealed class Hand
         foreach (var c in _cards)
         {
             if (c.Rank == Rank.Ace) { total += 11; aces++; }
-            else total += (int)c.Rank; // Face cards already 10 via enum
+            else total += c.Rank.GetValue(); // Face cards already 10 via enum
         }
 
         while (total > 21 && aces > 0) { total -= 10; aces--; }
@@ -33,11 +36,10 @@ public sealed class Hand
 
     //Is the hand splittable? Splittable when the "first two cards are of the same denomination"
     //Also there needs to be only two cards in the hand, so you can't split after you hit without splitting first
-    public bool IsSplittable => (_cards[0].Rank == _cards[1].Rank) && (_cards.Count() == 2);
+    public bool IsSplittable => _cards.Count == 2 && _cards[0].Rank == _cards[1].Rank;
 
     //Is the hand double-down-able? The first two cards need to sum to 9, 10, or 11
-    public bool IsDouble => (_cards[0].Rank.GetValue() + _cards[1].Rank.GetValue()) is 9 or 10 or 11 ;
-
+    public bool IsDouble => _cards.Count == 2 && (_cards[0].Rank.GetValue() + _cards[1].Rank.GetValue()) is 9 or 10 or 11;
     public bool IsBlackjack => _cards.Count == 2 && BestValue() == 21;
     public bool IsBust => BestValue() > 21;
 }

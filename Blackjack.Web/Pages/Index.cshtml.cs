@@ -11,6 +11,7 @@ public class IndexModel : PageModel
 {
     // Values to render
     public string PlayerHand { get; private set; } = "";
+    public string PlayerHandB { get; private set; } = "";
     public string DealerHand { get; private set; } = "";
     public string Message { get; private set; } = "";
     //Renamed bc "Score" should mean player score, not cards value
@@ -19,12 +20,15 @@ public class IndexModel : PageModel
     //Mostly for debug to see the dealer's score (not counting the hole card)
     public int? DealerCardScoreKnown { get; private set; } = 0;
     public int? DealerCardScoreUnknown { get; private set; } = 0;
-    
+
     //Player's total score -- not the score of their hand
     public int PlayerScore { get; private set; } = 0;
 
     public bool PlayerHandDouble { get; private set; } = false;
     public bool PlayerHandSplittable { get; private set; } = false;
+
+    //Player's active hand (for splitting)
+    public int ActiveHandIndex { get; private set; }
 
     private const string SessionKey = "BLACKJACK_STATE";
 
@@ -85,7 +89,7 @@ public class IndexModel : PageModel
         PlayerHandDouble = game.PlayerHandDouble();
 
         Message = busted ? "Bust!" : "Hit or stand?";
-        
+
         return Page();
     }
 
@@ -99,7 +103,7 @@ public class IndexModel : PageModel
             Message = "Error! Null state.";
             return Page();
         }
-        
+
         var game = GameStateMapper.FromState(state);
         var outcome = game.ResolveAfterPlayerStand();
 
@@ -118,7 +122,80 @@ public class IndexModel : PageModel
     }
 
     //TODO: Split
+    public IActionResult OnPostPlayerSplit()
+    {
+        var state = HttpContext.Session.GetJson<GameState>(SessionKey);
+        if (state == null)
+        {
+            Message = "Error! Null state.";
+            return Page();
+        }
+
+        var game = GameStateMapper.FromState(state);
+
+        if (!game.PlayerHandSplittable())
+        {
+            Message = "You can’t split this hand.";
+        }
+        else
+        {
+            game.PlayerSplit();
+            HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
+            Message = "Split! Playing Hand #1.";
+        }
+
+        RefreshView(game);
+        return Page();
+
+    }
+
     //TODO: Double-down
+    public IActionResult OnPostPlayerDouble()
+    {
+        var state = HttpContext.Session.GetJson<GameState>(SessionKey);
+
+        if (state == null)
+        {
+            Message = "Error! Null state.";
+            return Page();
+        }
+
+        var game = GameStateMapper.FromState(state);
+
+        if (!game.PlayerHandDouble())
+        {
+            Message = "You can’t double down on this hand.";
+            RefreshView(game);
+            return Page();
+        }
+
+        if (game.PlayerDoubleDown())
+        {
+            var outcome = game.ResolveAfterPlayerStand();
+            HttpContext.Session.Remove(SessionKey);
+            PlayerHand = game.PlayerHandText(0);
+            PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
+            DealerHand = game.DealerHandText(true);
+            PlayerCardScore  = game.PlayerHandValue(game.ActiveHandIndex);
+            Message= $"Doubled down! {outcome}";
+            return Page();
+        }
+
+            HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
+            Message = $"Doubled. Now playing Hand #{game.ActiveHandIndex + 1}.";
+            RefreshView(game);
+            return Page();
+    }
+
+    private void RefreshView(BlackjackGame game)
+    {
+        PlayerHand  = game.PlayerHandText(0);
+        PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
+        DealerHand  = game.DealerHandText(false);
+        PlayerCardScore   = game.PlayerHandValue(game.ActiveHandIndex);
+        ActiveHandIndex = game.ActiveHandIndex;
+    }
+
     //TODO: Bet?
 
 }
