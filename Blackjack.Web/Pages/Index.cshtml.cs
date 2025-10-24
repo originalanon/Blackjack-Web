@@ -14,7 +14,13 @@ public class IndexModel : PageModel
     public string DealerHand { get; private set; } = "";
     public string Message { get; private set; } = "";
     //Renamed bc "Score" should mean player score, not cards value
-    public int? CardScore { get; private set; }
+    public int? PlayerCardScore { get; private set; }
+
+    //Mostly for debug to see the dealer's score (not counting the hole card)
+    public int? DealerCardScoreKnown { get; private set; } = 0;
+    public int? DealerCardScoreUnknown { get; private set; } = 0;
+    
+    //Player's total score -- not the score of their hand
     public int PlayerScore { get; private set; } = 0;
 
     public bool PlayerHandDouble { get; private set; } = false;
@@ -42,7 +48,9 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: false);
-        CardScore = game.PlayerHandTotal();
+
+        PlayerCardScore = game.PlayerHandTotal();
+        DealerCardScoreUnknown = game.DealerHandTotalUnknown();
 
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
@@ -69,8 +77,10 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(false);
-        CardScore = game.PlayerHandTotal();
-        
+
+        PlayerCardScore = game.PlayerHandTotal();
+        DealerCardScoreUnknown = game.DealerHandTotalUnknown();
+
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
 
@@ -97,7 +107,10 @@ public class IndexModel : PageModel
 
         PlayerHand = game.PlayerHandText();
         DealerHand = game.DealerHandText(revealHole: true);
-        CardScore  = game.PlayerHandTotal();
+
+        PlayerCardScore = game.PlayerHandTotal();
+        DealerCardScoreKnown = game.DealerHandTotalKnown();
+
         Message = outcome.ToString();
 
 

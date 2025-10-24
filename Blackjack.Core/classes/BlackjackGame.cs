@@ -77,6 +77,22 @@ public sealed class BlackjackGame
         return total;
     }
 
+    //The hole card is still hidden, so only display the value of the first card
+    public int DealerHandTotalUnknown() => _dealer.Hand.Cards[0].Rank.GetValue();
+
+    //Only shows once the player has stood
+    public int DealerHandTotalKnown()
+    {
+        int total = 0;
+
+        for (int i = 0; i < _dealer.Hand.Cards.Count; i++)
+        {
+            total += _dealer.Hand.Cards[i].Rank.GetValue();
+        }
+
+        return total;
+    }
+
     //Dealer's hand, which only reveals the dealer's face-down card (hole card, I've learned) later
     public string DealerHandText(bool revealHole = false)
     {

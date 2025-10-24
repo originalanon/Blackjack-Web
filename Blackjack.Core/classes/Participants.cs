@@ -15,6 +15,7 @@ public class Player : IParticipant
 {
     public int Score { get; set; }
 
+    //TODO: Implement player score increase/decrease
     //Add (or subtract, if passed a negative) to the player's score
     private void AddSubtractPlayerScore(int amount)
     {
