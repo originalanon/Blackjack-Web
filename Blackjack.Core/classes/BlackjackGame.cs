@@ -5,12 +5,19 @@ namespace Blackjack.Core;
 
 public sealed class BlackjackGame
 {
+    #region Private Class Members
     private readonly Deck _deck;
     private readonly Player _player = new();
     private readonly Dealer _dealer = new();
 
     //Splitting
     private Hand? _playerHandB;
+
+    #endregion
+
+
+    /***************************************************************/
+#region Public Properties
 
     // 0 = first (original), 1 = second hand
     public int ActiveHandIndex { get; private set; } = 0; 
@@ -28,6 +35,10 @@ public sealed class BlackjackGame
     //Player's current hand 
     private Hand CurrentHand() => (ActiveHandIndex == 0) ? _player.Hand : (_playerHandB ?? _player.Hand);
 
+#endregion
+/***************************************************************/
+
+    #region Public Properties for UI
     //More UI helpers -- these two for wheteher or not the "Split" and "Double Down" buttons should display
     public bool PlayerHandSplittable() => CurrentHand().IsSplittable && !HasSecondHand;
     public bool PlayerHandDouble() => CurrentHand().IsDouble;
@@ -51,6 +62,21 @@ public sealed class BlackjackGame
     //Total of the player's hand -- different from Value
     public int PlayerHandTotal() => PlayerHandValue(ActiveHandIndex);
 
+        //The hole card is still hidden, so only display the value of the first card
+    public int DealerHandTotalUnknown() => _dealer.Hand.Cards[0].Rank.GetValue();
+
+    //Only shows once the player has stood
+    public int DealerHandTotalKnown()
+    {
+        int total = 0;
+
+        for (int i = 0; i < _dealer.Hand.Cards.Count; i++)
+        {
+            total += _dealer.Hand.Cards[i].Rank.GetValue();
+        }
+
+        return total;
+    }
 
     //Dealer's hand, which only reveals the dealer's face-down card (hole card, I've learned) later
     public string DealerHandText(bool revealHole = false)
@@ -62,8 +88,13 @@ public sealed class BlackjackGame
         return $"{first}{restHidden}";
     }
 
+    #endregion
+
+/******************************************************/
+
     public BlackjackGame(int decks = 1) => _deck = new Deck(decks);
 
+    #region Player Actions
     public void DealInitial()
     {
         // Standard dealing
@@ -73,7 +104,7 @@ public sealed class BlackjackGame
         _dealer.Receive(_deck.Draw());
 
         //Only one hand on initial deal
-        ActiveHandIndex = 0; 
+        ActiveHandIndex = 0;
     }
 
     public enum Outcome { PlayerBlackjack, DealerBlackjack, PlayerBust, DealerBust, PlayerWin, DealerWin, Push }
@@ -146,7 +177,11 @@ public sealed class BlackjackGame
         return true;
     }
 
+    #endregion
 
+/**********************************/
+
+    #region Score Functions
     //Best value of all hands -- for after a split
     private int BestValueAllHands()
     {
@@ -154,34 +189,16 @@ public sealed class BlackjackGame
 
         var a = _player.Hand.BestValue();
         var b = _playerHandB!.BestValue();
-        
+
         var candidates = new[] { a <= 21 ? a : 0, b <= 21 ? b : 0 };
         return candidates.Max();
     }
     //TODO: Update score
     //TODO: Post-hand "store" for rare cards
 
-    //Helper functions for post calls in the web app
-    //Get the player's hand
+#endregion
 
-
-    //The hole card is still hidden, so only display the value of the first card
-    public int DealerHandTotalUnknown() => _dealer.Hand.Cards[0].Rank.GetValue();
-
-    //Only shows once the player has stood
-    public int DealerHandTotalKnown()
-    {
-        int total = 0;
-
-        for (int i = 0; i < _dealer.Hand.Cards.Count; i++)
-        {
-            total += _dealer.Hand.Cards[i].Rank.GetValue();
-        }
-
-        return total;
-    }
-
-
+    #region Load From State
     //Replace existing, pre-loaded cards and deck with saved ones
     //This is called in GameStateMapper
 
@@ -214,6 +231,6 @@ public sealed class BlackjackGame
         ActiveHandIndex = activeHandIndex;
     }
 
-
+    #endregion
 }
 
