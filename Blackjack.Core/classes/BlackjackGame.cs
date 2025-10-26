@@ -22,10 +22,10 @@ public sealed class BlackjackGame
 
 
     /***************************************************************/
-#region Public Properties
+    #region Public Properties
 
     // 0 = first (original), 1 = second hand
-    public int ActiveHandIndex { get; private set; } = 0; 
+    public int ActiveHandIndex { get; private set; } = 0;
     public bool HasSecondHand => _playerHandB is not null;
 
     //public for UI
@@ -65,7 +65,7 @@ public sealed class BlackjackGame
     //Total of the player's hand -- different from Value
     public int PlayerHandTotal() => PlayerHandValue(ActiveHandIndex);
 
-        //The hole card is still hidden, so only display the value of the first card
+    //The hole card is still hidden, so only display the value of the first card
     public int DealerHandTotalUnknown() => _dealer.Hand.Cards[0].Rank.GetValue();
 
     //Only shows once the player has stood
@@ -93,7 +93,7 @@ public sealed class BlackjackGame
 
     #endregion
 
-/******************************************************/
+    /******************************************************/
 
     public BlackjackGame(int decks = 1) => _deck = new Deck(decks);
 
@@ -180,7 +180,7 @@ public sealed class BlackjackGame
 
     #endregion
 
-/**********************************/
+    /**********************************/
 
     #region Score Functions
     //Best value of all hands -- for after a split
@@ -197,7 +197,7 @@ public sealed class BlackjackGame
     //TODO: Update score
     //TODO: Post-hand "store" for rare cards
 
-#endregion
+    #endregion
 
     #region Load From State
     //Replace existing, pre-loaded cards and deck with saved ones

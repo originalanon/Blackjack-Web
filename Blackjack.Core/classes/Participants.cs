@@ -21,17 +21,6 @@ public class Player : IParticipant
 {
     public int Score { get; set; }
 
-    //TODO: Implement player score increase/decrease
-    //Add (or subtract, if passed a negative) to the player's score
-    private void AddSubtractPlayerScore(int amount)
-    {
-        Score += amount;
-    }
-
-    //I want to do multiplayer later, so here's an ID and a username
-    //TODO: Implement PlayerID and Username
-    public Guid PlayerId { get; set; }
-    public string? Username { get; set; }
 
     public Hand Hand { get; } = new();
 
@@ -40,9 +29,6 @@ public class Player : IParticipant
     public Player()
     {
         Score = 0;
-        PlayerId = Guid.NewGuid();
-        //Change
-        Username = "Jack Black";
     }
 
 }
