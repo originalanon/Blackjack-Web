@@ -29,13 +29,20 @@ public sealed class Hand
         int total = 0;
         int aces = 0;
 
-        foreach (var c in _cards)
+        foreach (var card in _cards)
         {
-            if (c.Rank == Rank.Ace) { total += 11; aces++; }
-            else total += c.Rank.GetValue(); // Face cards already 10 via enum
+            int value = card.Rank.GetValue();
+            total += value;
+            if (card.Rank == Rank.Ace) aces++;
         }
 
-        while (total > 21 && aces > 0) { total -= 10; aces--; }
+        // Try to count some aces as 11 (1 + 10)
+        while (aces > 0 && total + 10 <= 21)
+        {
+            total += 10;
+            aces--;
+        }
+
         return total;
     }
 

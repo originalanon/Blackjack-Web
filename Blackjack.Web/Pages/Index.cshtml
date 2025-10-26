@@ -32,7 +32,7 @@
     </form>
 
     <div class="stack">
-        <div>
+        <div id="playerarea">
             <h3>Player</h3>
             <p><strong>@Model.PlayerCardScore</strong></p>
             @if (@Model.PlayerCardScore < 21){
@@ -56,9 +56,6 @@
             }
             else{
                 <p>Bust!</p>
-                <form method="post">
-                    <button type="submit" asp-page-handler="Start">Play again</button>
-                </form>
             }
 
             <div class="hand">
@@ -79,7 +76,8 @@
             </div>
             
         </div>
-        <div>
+
+        <div id="dealerarea">
             <h3>Dealer</h3>
             <!--The dealer's hole card isn't known yet, display the unknown value -->
             @if(@Model.DealerCardScoreKnown == 0){

@@ -113,6 +113,27 @@ public class IndexModel : PageModel
         //Start the game
         game.DealInitial();
 
+        //Check for natural blackjack right after deal
+        if (game.PlayerHandTotal() == 21)
+        {
+            var outcome = BlackjackGame.Outcome.PlayerBlackjack;
+            var net = BettingService.NetPayout(outcome, bank.CurrentBet);
+            bank.Bank += net;
+            bank.CurrentBet = 0m;
+            HttpContext.Session.SetJson(BankKey, bank);
+
+            HttpContext.Session.Remove(SessionKey); // round over
+
+            PlayerHandText = game.CurrentPlayerHandText();
+            DealerHandText = game.DealerHandText(true);
+            PlayerCardScore = game.PlayerHandTotal();
+            DealerCardScoreKnown = game.DealerHandTotalKnown();
+            Bank = bank.Bank;
+
+            Message = $"Blackjack! You win ${net}. Bank: ${bank.Bank}";
+            return Page();
+        }
+
         GameState state = GameStateMapper.ToState(game);
 
         //Set game state on start
@@ -151,13 +172,18 @@ public class IndexModel : PageModel
         var game = GameStateMapper.FromState(state);
         var bank = StartBank();
 
+        var outcome = game.ResolveAfterPlayerStand();
+
+        var net = BettingService.NetPayout(outcome, bank.CurrentBet);
+        bank.Bank += net;
+
         var busted = game.PlayerHit();
 
         if (busted)
         {
             //Player loses bet
             bank = StartBank();
-            var net = -bank.CurrentBet;
+            net = -bank.CurrentBet;
             bank.Bank += net;
 
             bank.CurrentBet = 0m;
@@ -167,7 +193,7 @@ public class IndexModel : PageModel
             HttpContext.Session.Remove(SessionKey);
 
             Bank = bank.Bank;
-            Message = $"Bust! You lost ${Math.Abs(net)}. Bank: ${bank.Bank}";
+            Message = $"Bust! You lost ${Math.Abs(net)}.";
 
             if (bank.Bank <= 0)
             {
@@ -191,6 +217,7 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
+        Bank = bank.Bank;
         Message = busted ? "Bust!" : "Hit or stand?";
 
         return Page();
@@ -236,7 +263,7 @@ public class IndexModel : PageModel
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
         Bank = bank.Bank;
-        Message = $"{outcome} • Net: {(net >= 0 ? "+" : "")}${net} • Bank: ${bank.Bank}";
+        Message = $"{outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
 
         return Page();
     }
@@ -272,10 +299,9 @@ public class IndexModel : PageModel
 
     #endregion
     #region Player Double Down
-    public IActionResult OnPostPlayerDouble()
+  public IActionResult OnPostPlayerDouble()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);
-
         if (state == null)
         {
             Message = "Error! Null state.";
@@ -283,6 +309,7 @@ public class IndexModel : PageModel
         }
 
         var game = GameStateMapper.FromState(state);
+        var bank = StartBank();
 
         if (!game.PlayerHandDouble())
         {
@@ -291,18 +318,35 @@ public class IndexModel : PageModel
             return Page();
         }
 
+        //Double da bet
+        bank.CurrentBet *= 2;
+
+        // the player draws one card and stands
         if (game.PlayerDoubleDown())
         {
             var outcome = game.ResolveAfterPlayerStand();
             HttpContext.Session.Remove(SessionKey);
+
             PlayerHandText = game.PlayerHandText(0);
             PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
             DealerHandText = game.DealerHandText(true);
             PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
 
+            //Double da money
+            var net = BettingService.NetPayout(outcome, bank.CurrentBet);
+
+            //No blackjack after doibling down -- just a player win
+            if (outcome == BlackjackGame.Outcome.PlayerBlackjack && game.PlayerHandValue(0) > 2)
+                outcome = BlackjackGame.Outcome.PlayerWin;
+
+            bank.Bank += net;
+            bank.CurrentBet = 0;
+            HttpContext.Session.SetJson(BankKey, bank);
+
             CurrentPlayerCards = game.CurrentPlayerCards;
             CurrentPlayerCardsB = game.CurrentPlayerCardsB;
-            Message = $"Doubled down! {outcome}";
+            Message = $"Doubled down! {outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
+            Bank = bank.Bank;
             return Page();
         }
 

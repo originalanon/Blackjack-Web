@@ -25,7 +25,6 @@ C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Deb
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/scopedcss/Pages/Shared/_Layout.cshtml.rz.scp.css
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/scopedcss/bundle/Blackjack.Web.styles.css
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/scopedcss/projectbundle/Blackjack.Web.bundle.scp.css
-C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/tz0ihjiqws-b9sayid5wm.gz
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/qla2niy5sb-61n19gt1b8.gz
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/qp7axp1ei4-xtxxf3hu2r.gz
 C:/Users/linds/Documents/Repos/Blackjack Web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/6jixgcerqe-t1cqhe9u97.gz
@@ -227,7 +226,6 @@ C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Deb
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\scopedcss\Pages\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\scopedcss\bundle\Blackjack.Web.styles.css
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\scopedcss\projectbundle\Blackjack.Web.bundle.scp.css
-C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\tz0ihjiqws-b9sayid5wm.gz
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\qla2niy5sb-61n19gt1b8.gz
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\qp7axp1ei4-xtxxf3hu2r.gz
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\6jixgcerqe-t1cqhe9u97.gz
@@ -301,4 +299,5 @@ C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Deb
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\Blackjack.Web.pdb
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\Blackjack.Web.genruntimeconfig.cache
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\ref\Blackjack.Web.dll
-C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\xmdwtkr9zd-cz39hj9sui.gz
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\tz0ihjiqws-3y8m7uxm6z.gz
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\xmdwtkr9zd-qg2uabp2z2.gz

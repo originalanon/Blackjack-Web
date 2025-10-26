@@ -9,15 +9,8 @@
 .card {
   width: 140px;
   height: 196px;
-  display: inline-block;
   flex: 0 0 auto;
   margin-right: 0.5rem;
-}
-
-.card .card-bg { 
-  fill: #fff; 
-  stroke: #222; 
-  stroke-width: 3px; 
 }
 
 svg.card.red   { color: #c1121f; }
