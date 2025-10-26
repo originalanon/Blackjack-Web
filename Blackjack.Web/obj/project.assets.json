@@ -27,33 +27,32 @@
     ]
   },
   "packageFolders": {
-    "/home/lindsay/.nuget/packages/": {}
+    "C:\\Users\\linds\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/Blackjack.Web.csproj",
+      "projectUniqueName": "C:\\Users\\linds\\Documents\\Repos\\Blackjack Web\\Blackjack-Web\\Blackjack.Web\\Blackjack.Web.csproj",
       "projectName": "Blackjack.Web",
-      "projectPath": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/Blackjack.Web.csproj",
-      "packagesPath": "/home/lindsay/.nuget/packages/",
-      "outputPath": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/",
+      "projectPath": "C:\\Users\\linds\\Documents\\Repos\\Blackjack Web\\Blackjack-Web\\Blackjack.Web\\Blackjack.Web.csproj",
+      "packagesPath": "C:\\Users\\linds\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\linds\\Documents\\Repos\\Blackjack Web\\Blackjack-Web\\Blackjack.Web\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/lindsay/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\linds\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "/usr/lib/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Core/Blackjack.Core.csproj": {
-              "projectPath": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Core/Blackjack.Core.csproj"
+            "C:\\Users\\linds\\Documents\\Repos\\Blackjack Web\\Blackjack-Web\\Blackjack.Core\\Blackjack.Core.csproj": {
+              "projectPath": "C:\\Users\\linds\\Documents\\Repos\\Blackjack Web\\Blackjack-Web\\Blackjack.Core\\Blackjack.Core.csproj"
             }
           }
         }
@@ -68,7 +67,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.100"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net9.0": {
@@ -92,7 +91,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/9.0.111/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

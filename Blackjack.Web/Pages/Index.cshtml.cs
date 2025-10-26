@@ -40,9 +40,36 @@ public class IndexModel : PageModel
     public IReadOnlyList<Card> CurrentPlayerCardsB { get; private set; } = Array.Empty<Card>();
 
     private const string SessionKey = "BLACKJACK_STATE";
+    private const string BankKey = "BANK_STATE";
 
-    public void OnGet() { }
 
+
+    public decimal Bank { get; private set; }
+
+    [BindProperty(SupportsGet = false)]
+    public decimal Bet { get; set; }
+
+
+
+
+    public void OnGet() {
+        StartBank();
+    }
+
+
+    //Create Bank for this session
+    private BankState StartBank()
+    {
+        var bank = HttpContext.Session.GetJson<BankState>(BankKey);
+        if (bank is null)
+        {
+            bank = new BankState();
+            HttpContext.Session.SetJson(BankKey, bank);
+        }
+
+        Bank = bank.Bank;
+        return bank;
+    }
 
     //On post, start the game
     //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
@@ -52,6 +79,25 @@ public class IndexModel : PageModel
 
         BlackjackGame game = new BlackjackGame(decks: 1);
 
+        var bank = StartBank();
+
+        // Basic validation
+        if (Bet <= 0)
+        {
+            Message = "Please enter a positive bet.";
+            return Page();
+        }
+        if (Bet > bank.Bank)
+        {
+            Message = $"Insufficient funds. Bank: ${bank.Bank}";
+            return Page();
+        }
+
+        //Lock bet
+        bank.CurrentBet = Bet;
+        HttpContext.Session.SetJson(BankKey, bank);
+
+        //Start the game
         game.DealInitial();
 
         GameState state = GameStateMapper.ToState(game);
@@ -71,7 +117,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        Message = "Game start!";
+        Bank= bank.Bank;
+        Message = $"Bet locked: ${bank.CurrentBet}";
 
         return Page();
     }
@@ -87,6 +134,8 @@ public class IndexModel : PageModel
         }
 
         var game = GameStateMapper.FromState(state);
+        var bank = StartBank();
+
         var busted = game.PlayerHit();
 
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
@@ -120,8 +169,20 @@ public class IndexModel : PageModel
         }
 
         var game = GameStateMapper.FromState(state);
+        var bank = StartBank();
+
         var outcome = game.ResolveAfterPlayerStand();
 
+        var net = BettingService.NetPayout(outcome, bank.CurrentBet);
+        bank.Bank += net;
+
+        //Clear bank
+        bank.CurrentBet = 0m;
+
+        //Set bank key
+        HttpContext.Session.SetJson(BankKey, bank);
+        
+        //Remove session key
         HttpContext.Session.Remove(SessionKey);
 
         PlayerHandText = game.CurrentPlayerHandText();
@@ -133,8 +194,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        Message = outcome.ToString();
-
+        Bank = bank.Bank;
+        Message = $"{outcome} • Net: {(net >= 0 ? "+" : "")}${net} • Bank: ${bank.Bank}";
 
         return Page();
     }

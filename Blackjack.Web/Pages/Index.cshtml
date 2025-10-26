@@ -14,6 +14,14 @@
 {
     <p><strong>@Model.Message</strong></p>
     <p>Player Score: @Model.PlayerScore</p>
+    <h3>Bank: $@Model.Bank</h3>
+
+    <form method="post">
+        <label for="bet">Bet:</label>
+        <input id="bet" name="Bet" type="number" step="0.01" min="0.01" />
+        <button type="submit" asp-page-handler="Start">Deal</button>
+    </form>
+
     <div class="stack">
         <div>
             <h3>Player</h3>
@@ -44,7 +52,6 @@
                 </form>
             }
 
-
             <div class="hand">
                 @foreach (var c in @Model.CurrentPlayerCards) { 
                     <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
@@ -61,6 +68,7 @@
                 }
 
             </div>
+            
         </div>
         <div>
             <h3>Dealer</h3>
