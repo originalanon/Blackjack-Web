@@ -1,13 +1,9 @@
 /**
- * @ Author: Your name
- * @ Create Time: 2025-10-25 00:44:33
- * @ Modified by: Your name
- * @ Modified time: 2025-10-25 14:57:27
- * @ Description:
+ * @ Author: Lindsay Barton
+ * @ Description: BlackjackGame class. This one has a bunch of members and functions for different things throughout
+ * the game. It's basically a big orchestrating class that helps Participants, Hand, Deck, and Cards interact properly.
  */
 
-
-//TODO: Document
 using System;
 
 namespace Blackjack.Core;
@@ -140,8 +136,6 @@ public sealed class BlackjackGame
         hand.Add(_deck.Draw());
         return hand.IsBust;
     }
-
-    //TODO: Double-down, split
 
     public void PlayerSplit()
     {

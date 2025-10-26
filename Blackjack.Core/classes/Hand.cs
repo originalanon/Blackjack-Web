@@ -1,3 +1,9 @@
+/**
+ * @ Author: Lindsay Barton
+ * @ Description: The Hand class. Hand is a class consisting of two or more Cards. Each Participant (so, Player and Dealer) 
+ * have a hand. Hands can be splittable, double-down-able, can be a blackjack, or can be a bust.
+ */
+
 using System;
 using System.Reflection.Metadata.Ecma335;
 

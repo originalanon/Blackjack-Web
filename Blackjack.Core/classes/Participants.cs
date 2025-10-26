@@ -1,3 +1,9 @@
+/**
+ * @ Author: Lindsay Barton
+ * @ Description: The Participant class, which contains two inherit classes: Player and Dealer. Player and Dealer
+ * each have a Hand.
+ */
+
 using System;
 
 namespace Blackjack.Core;

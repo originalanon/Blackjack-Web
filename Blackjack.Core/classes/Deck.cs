@@ -1,11 +1,12 @@
+/**
+ * @ Author: Lindsay Barton
+ * @ Description: The Deck class. Decks are stacks of Cards (see what I did there?). 
+ * They can be shuffled, drawn from, and replaced (which is just used for saving the state of the current deck.)
+ */
+
 using System;
 
 namespace Blackjack.Core;
-
-//TODO: Document this file
-/**************************************************************
-*
-*/
     
 public class Deck
 {

@@ -1,3 +1,9 @@
+/**
+ * @ Author: Lindsay Barton
+ * @ Description: This is the class for Cards, the most granular class in the program. Cards don't inherit from anything.
+ *   Cards have a suit, a rank, a material, and a coating.
+ */
+
 using System;
 
 namespace Blackjack.Core;
@@ -16,6 +22,12 @@ public enum CardMaterial { Standard = 0, Stone = 3, Silver = 5, Gold = 7, Platin
 public static class RankExtension
 {
     //GetValue can be used later to get the value of the named ranks
+    /// <summary>
+    /// Get Value - Gets the numeric value of a card's rank (Two = 2, Jack = 10, etc.)
+    /// </summary>
+    /// <param name="rank"></param>
+    /// <returns></returns>
+
     public static int GetValue(this Rank rank) =>
         rank switch
         {
@@ -25,7 +37,7 @@ public static class RankExtension
         };
 }
 
-//TODO: Add variables for different card types (holographic, foil, prismatic?)
+
 public class Card
 {
     public Rank Rank { get; set; }
@@ -42,6 +54,10 @@ public class Card
         Rank = rank; Suit = suit;
     }
 
+    /// <summary>
+    /// "{rank} of {suit}"
+    /// </summary>
+    /// <returns></returns>
     public override string ToString()
     {
         return $"{Rank} of {Suit}";

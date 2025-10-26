@@ -1,3 +1,9 @@
+/**
+ * @ Author: Lindsay Barton
+ * @ Description: This is the main page model for the game. It contains functions for starting the game,
+ *   hitting, standing, splitting, and doubling down. 
+ */
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Blackjack.Core;
@@ -9,6 +15,8 @@ namespace Blackjack.Web.Pages;
 
 public class IndexModel : PageModel
 {
+
+    #region Page Model Values
     // Values to render
 
     //String value of player's cards
@@ -39,9 +47,10 @@ public class IndexModel : PageModel
     public IReadOnlyList<Card> CurrentPlayerCards { get; private set; } = Array.Empty<Card>();
     public IReadOnlyList<Card> CurrentPlayerCardsB { get; private set; } = Array.Empty<Card>();
 
+    #region State Keys
     private const string SessionKey = "BLACKJACK_STATE";
     private const string BankKey = "BANK_STATE";
-
+    #endregion
 
 
     public decimal Bank { get; private set; }
@@ -49,14 +58,16 @@ public class IndexModel : PageModel
     [BindProperty(SupportsGet = false)]
     public decimal Bet { get; set; }
 
+#endregion
 
-
-
+#region OnGet
     public void OnGet() {
         StartBank();
     }
 
+    #endregion
 
+#region StartBank
     //Create Bank for this session
     private BankState StartBank()
     {
@@ -73,6 +84,9 @@ public class IndexModel : PageModel
 
     //On post, start the game
     //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
+
+    #endregion
+    #region OnPostStart (Start game)
 
     public IActionResult OnPostStart()
     {
@@ -117,13 +131,15 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        Bank= bank.Bank;
+        Bank = bank.Bank;
         Message = $"Bet locked: ${bank.CurrentBet}";
 
         return Page();
     }
 
+    #endregion
 
+    #region Player Hit
     public IActionResult OnPostPlayerHit()
     {
         var state = HttpContext.Session.GetJson<GameState>("BLACKJACK_STATE");
@@ -157,6 +173,8 @@ public class IndexModel : PageModel
         return Page();
     }
 
+    #endregion
+    #region  Player Stand
     public IActionResult OnPostPlayerStand()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);
@@ -181,7 +199,7 @@ public class IndexModel : PageModel
 
         //Set bank key
         HttpContext.Session.SetJson(BankKey, bank);
-        
+
         //Remove session key
         HttpContext.Session.Remove(SessionKey);
 
@@ -200,7 +218,8 @@ public class IndexModel : PageModel
         return Page();
     }
 
-    //TODO: Split
+    #endregion
+    #region Player Splitt
     public IActionResult OnPostPlayerSplit()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);
@@ -228,7 +247,8 @@ public class IndexModel : PageModel
 
     }
 
-    //TODO: Double-down
+    #endregion
+    #region Player Double Down
     public IActionResult OnPostPlayerDouble()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);
@@ -256,30 +276,33 @@ public class IndexModel : PageModel
             PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
             DealerHandText = game.DealerHandText(true);
             PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
-            
+
             CurrentPlayerCards = game.CurrentPlayerCards;
             CurrentPlayerCardsB = game.CurrentPlayerCardsB;
-            Message= $"Doubled down! {outcome}";
+            Message = $"Doubled down! {outcome}";
             return Page();
         }
 
-            HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
-            Message = $"Doubled. Now playing Hand #{game.ActiveHandIndex + 1}.";
-            RefreshView(game);
-            return Page();
+        HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
+        Message = $"Doubled. Now playing Hand #{game.ActiveHandIndex + 1}.";
+        RefreshView(game);
+        return Page();
     }
 
+    #endregion
+    
+    #region RefreshView
     private void RefreshView(BlackjackGame game)
     {
-        PlayerHandText  = game.PlayerHandText(0);
+        PlayerHandText = game.PlayerHandText(0);
         PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
-        DealerHandText  = game.DealerHandText(false);
-        PlayerCardScore   = game.PlayerHandValue(game.ActiveHandIndex);
+        DealerHandText = game.DealerHandText(false);
+        PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
         ActiveHandIndex = game.ActiveHandIndex;
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
     }
 
-    //TODO: Bet?
+    #endregion
 
 }
