@@ -47,11 +47,30 @@ public class IndexModel : PageModel
     public IReadOnlyList<Card> CurrentPlayerCards { get; private set; } = Array.Empty<Card>();
     public IReadOnlyList<Card> CurrentPlayerCardsB { get; private set; } = Array.Empty<Card>();
 
+    public IReadOnlyList<Card> DealerCards { get; private set; } = Array.Empty<Card>();
+
     #region State Keys
     private const string SessionKey = "BLACKJACK_STATE";
     private const string BankKey = "BANK_STATE";
     #endregion
 
+    #region Ui State
+    public enum UiState { NotStarted, PreDeal, InHand, PostHand }
+
+    private const string UiKey = "UI_STATE";
+    public UiState Ui { get; private set; } = UiState.NotStarted;
+
+    private UiState GetUi()
+    {
+        var s = HttpContext.Session.GetString(UiKey);
+        return Enum.TryParse<UiState>(s, out var ui) ? ui : UiState.NotStarted;
+    }
+    private void SetUi(UiState ui)
+    {
+        Ui = ui;
+        HttpContext.Session.SetString(UiKey, ui.ToString());
+    }
+    #endregion
 
     public decimal Bank { get; private set; }
     public bool IsBroke => Bank <= 0m;
@@ -64,6 +83,7 @@ public class IndexModel : PageModel
 #region OnGet
     public void OnGet() {
         StartBank();
+        Ui = GetUi();
     }
 
     #endregion
@@ -116,6 +136,8 @@ public class IndexModel : PageModel
         //Check for natural blackjack right after deal
         if (game.PlayerHandTotal() == 21)
         {
+            SetUi(UiState.PostHand);
+
             var outcome = BlackjackGame.Outcome.PlayerBlackjack;
             var net = BettingService.NetPayout(outcome, bank.CurrentBet);
             bank.Bank += net;
@@ -132,6 +154,10 @@ public class IndexModel : PageModel
 
             Message = $"Blackjack! You win ${net}. Bank: ${bank.Bank}";
             return Page();
+        }
+        else
+        {
+             SetUi(UiState.InHand);   
         }
 
         GameState state = GameStateMapper.ToState(game);
@@ -150,6 +176,8 @@ public class IndexModel : PageModel
 
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+        DealerCards= game.DealerCards;
 
         Bank = bank.Bank;
         Message = $"Bet locked: ${bank.CurrentBet}";
@@ -172,18 +200,14 @@ public class IndexModel : PageModel
         var game = GameStateMapper.FromState(state);
         var bank = StartBank();
 
-        var outcome = game.ResolveAfterPlayerStand();
-
-        var net = BettingService.NetPayout(outcome, bank.CurrentBet);
-        bank.Bank += net;
-
         var busted = game.PlayerHit();
 
         if (busted)
         {
+            SetUi(UiState.PostHand);
             //Player loses bet
             bank = StartBank();
-            net = -bank.CurrentBet;
+            var net = -bank.CurrentBet;
             bank.Bank += net;
 
             bank.CurrentBet = 0m;
@@ -202,6 +226,10 @@ public class IndexModel : PageModel
 
             return Page();
         }
+        else
+        {
+            SetUi(UiState.InHand);
+        }
 
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
 
@@ -213,6 +241,8 @@ public class IndexModel : PageModel
 
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
+
+        DealerCards= game.DealerCards;
 
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
@@ -240,6 +270,7 @@ public class IndexModel : PageModel
         var bank = StartBank();
 
         var outcome = game.ResolveAfterPlayerStand();
+        SetUi(UiState.PostHand);
 
         var net = BettingService.NetPayout(outcome, bank.CurrentBet);
         bank.Bank += net;
@@ -261,6 +292,8 @@ public class IndexModel : PageModel
 
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+        DealerCards= game.DealerCards;
 
         Bank = bank.Bank;
         Message = $"{outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
@@ -345,6 +378,9 @@ public class IndexModel : PageModel
 
             CurrentPlayerCards = game.CurrentPlayerCards;
             CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+            DealerCards = game.DealerCards;
+            
             Message = $"Doubled down! {outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
             Bank = bank.Bank;
             return Page();
@@ -369,10 +405,12 @@ public class IndexModel : PageModel
 
         CurrentPlayerCards = [];
         CurrentPlayerCardsB = [];
+        DealerCards= [];
         PlayerHandText = "";
         DealerHandText = "";
         PlayerCardScore = null;
         Message = "New run started. You have $10.";
+        SetUi(UiState.PreDeal);
 
         return Page();
     }
@@ -383,10 +421,14 @@ public class IndexModel : PageModel
         PlayerHandText = game.PlayerHandText(0);
         PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
         DealerHandText = game.DealerHandText(false);
+        
         PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
         ActiveHandIndex = game.ActiveHandIndex;
+        
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+        DealerCards= game.DealerCards;
     }
 
     #endregion

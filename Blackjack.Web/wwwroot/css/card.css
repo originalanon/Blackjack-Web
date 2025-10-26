@@ -13,12 +13,33 @@
   margin-right: 0.5rem;
 }
 
-svg.card.red   { color: #c1121f; }
-svg.card.black { color: #111; }
+svg.card.red  .idx,
+svg.card.red  .suit,
+svg.card.red  .pip,
+svg.card.red  .face { fill:#c1121f !important; }
 
-.idx, .suit, .pip, .face { fill: currentColor; }
+svg.card.black .idx,
+svg.card.black .suit,
+svg.card.black .pip,
+svg.card.black .face { fill:#111 !important; }
 
-.idx { font: 700 18px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }
-.suit { font: 700 18px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }
-.pip { font: 700 28px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; text-anchor: middle; dominant-baseline: middle; }
-.face { font: 900 84px ui-serif, Georgia, "Times New Roman", serif; }
+.idx,.suit,.pip,.face{
+  font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+.idx{
+  font:700 18px ui-sans-serif, system-ui, -apple-system,"Segoe UI", Roboto, Arial, sans-serif
+}
+
+.suit{
+  font:700 18px ui-sans-serif, system-ui,-apple-system,"Segoe UI", Roboto, Arial, sans-serif
+}
+
+.pip{
+  font:700 28px ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  text-anchor:middle;
+  dominant-baseline:middle
+}
+
+.face{
+  font:900 84px ui-serif, Georgia, "Times New Roman", serif}

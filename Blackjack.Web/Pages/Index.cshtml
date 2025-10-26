@@ -1,94 +1,97 @@
 ﻿@page
 @model Blackjack.Web.Pages.IndexModel
-@{
-    ViewData["Title"] = "Blackjack";
-}
+@using static Blackjack.Web.Pages.IndexModel 
 
-<h1>Blackjack</h1>
+<section class="container py-3">
 
-<form method="post">
-    <button type="submit" asp-page-handler="Start">Start Game</button>
-</form>
+  <header class="d-flex align-items-center justify-content-between mb-3">
+    <h3 class="m-0">Blackjack</h3>
+    <div class="fs-5">Bank: $@Model.Bank</div>
+  </header>
 
-
-@if (!string.IsNullOrWhiteSpace(Model.Message))
-{
-    <p><strong>@Model.Message</strong></p>
-    <p>Player Score: @Model.PlayerScore</p>
-    <h3>Bank: $@Model.Bank</h3>
-
-    @if (Model.IsBroke)
-    {
+  @if (Model.IsBroke)
+  {
     <div class="alert alert-danger">You're out of money.</div>
-    <form method="post">
-        <button type="submit" asp-page-handler="NewRun" class="btn btn-primary">New Run</button>
+    <form method="post" class="mb-3">
+      <button type="submit" asp-page-handler="NewRun" class="btn btn-primary">New Run</button>
     </form>
+  }
+  else
+  {
+    @if (Model.Ui == UiState.NotStarted || Model.Ui == UiState.PreDeal || Model.Ui == UiState.PostHand)
+    {
+      <form method="post" class="mb-3 d-flex gap-3 align-items-end">
+        <div>
+          <label for="bet" class="form-label">Bet</label>
+          <input id="bet" name="Bet" type="number" step="0.01" min="0.01" class="form-control" />
+        </div>
+        <div>
+          <label class="form-label invisible">.</label>
+          <button type="submit" asp-page-handler="Start" class="btn btn-success">Deal</button>
+        </div>
+      </form>
     }
-    else{
-         <form method="post">
-        <label for="bet">Bet:</label>
-        <input id="bet" name="Bet" type="number" step="0.01" min="0.01" />
-        <button type="submit" asp-page-handler="Start">Deal</button>
-    </form>
 
-    <div class="stack">
-        <div id="playerarea">
-            <h3>Player</h3>
-            <p><strong>@Model.PlayerCardScore</strong></p>
-            @if (@Model.PlayerCardScore < 21){
-                
-                <form method="post">
-                    <button type="submit" asp-page-handler="PlayerHit">Hit</button>
-                    <button type="submit" asp-page-handler="PlayerStand">Stand</button>
-                    <!-- Display the Double Down btn if true -->
-                    @if(@Model.PlayerHandDouble){
-                        <button type="submit" asp-page-handler="PlayerDouble">Double Down</button>
-                    }
+    @if (Model.Ui == UiState.InHand)
+    {
+      <form method="post" class="mb-3 d-flex gap-2 flex-wrap">
+        <button type="submit" asp-page-handler="PlayerHit" class="btn btn-secondary">Hit</button>
+        <button type="submit" asp-page-handler="PlayerStand" class="btn btn-warning">Stand</button>
 
-                    @if(@Model.PlayerHandSplittable){
-                        <button type="submit" asp-page-handler="PlayerSplit">Split</button>
-                    }
+        @if (Model.PlayerHandDouble)
+        {
+          <button type="submit" asp-page-handler="PlayerDouble" class="btn btn-info">Double</button>
+        }
+        @if (Model.PlayerHandSplittable)
+        {
+          <button type="submit" asp-page-handler="PlayerSplit" class="btn btn-info">Split</button>
+        }
+      </form>
+    }
+  }
 
-                </form>
+  @if (!string.IsNullOrWhiteSpace(Model.Message))
+  {
+    <div class="alert alert-light border">@Model.Message</div>
+  }
+
+  @if (Model.Ui != UiState.NotStarted)
+  {
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <h5 class="mb-2">Player</h5>
+
+        <div class="hand mb-2">
+          @if (Model.CurrentPlayerCards is not null)
+          {
+            foreach (var c in Model.CurrentPlayerCards)
+            {
+              <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
             }
-            else if(@Model.PlayerCardScore == 21){
-                <p>Blackjack!</p>  
-            }
-            else{
-                <p>Bust!</p>
-            }
-
-            <div class="hand">
-                @foreach (var c in @Model.CurrentPlayerCards) { 
-                    <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
-                }
-
-                @if (Model.CurrentPlayerCardsB.Count > 0)
-                {
-                <div class="hand">
-                    @foreach (var c in Model.CurrentPlayerCardsB)
-                    {
-                    <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
-                    }
-                </div>
-                }
-
-            </div>
-            
+          }
         </div>
 
-        <div id="dealerarea">
-            <h3>Dealer</h3>
-            <!--The dealer's hole card isn't known yet, display the unknown value -->
-            @if(@Model.DealerCardScoreKnown == 0){
-                <p>@Model.DealerCardScoreUnknown</p>
-            }
-            else{
-                <p>@Model.DealerCardScoreKnown</p>
-            }
+        <div class="mb-3"><strong>Total:</strong> @Model.PlayerCardScore</div>
 
-            <textarea readonly style="width:100%;height:100px;">@Model.DealerHandText</textarea>
+        @if (Model.CurrentPlayerCardsB is not null && Model.CurrentPlayerCardsB.Count > 0)
+        {
+          <h6>Player (Hand 2)</h6>
+          <div class="hand">
+            @foreach (var c in Model.CurrentPlayerCardsB)
+            {
+              <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <h5 class="mb-2">Dealer</h5>
+        <div class="mb-2">
+          <textarea readonly style="width:100%;height:100px;">@Model.DealerHandText</textarea>
         </div>
+      </div>
     </div>
-    }
-}
+  }
+
+</section>

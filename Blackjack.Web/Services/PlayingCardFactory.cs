@@ -16,21 +16,23 @@ public class PlayingCardTagHelper : TagHelper
 
   public override void Process(TagHelperContext context, TagHelperOutput output)
     {
-        output.TagName = "svg";
-        output.Attributes.SetAttribute("viewBox", "0 0 200 280");
-        output.Attributes.SetAttribute("class", $"card {(IsRed(Suit) ? "red" : "black")}");
+      output.TagName = "svg";
+      output.Attributes.SetAttribute("viewBox", "0 0 200 280");
+      output.Attributes.SetAttribute("width", "140");
+      output.Attributes.SetAttribute("height", "196");
+      output.Attributes.SetAttribute("class", $"card {(IsRed(Suit) ? "red" : "black")}");
+        
+      output.Attributes.SetAttribute(
+        "style",
+        "font-family: ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;"
+      );
 
-        output.Attributes.SetAttribute("width", "140");
-        output.Attributes.SetAttribute("height", "196");
-        
-        
-        
-        var pips = PipLayout(Rank);
+    var pips = PipLayout(Rank);
 
         var sb = new StringBuilder();
         sb.Append("""<rect x="2" y="2" width="196" height="276" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>""");
 
-        // corner indices
+        //Corners
         var rankText = RankToText(Rank);
         var suitGlyph = SuitToGlyph(Suit);
         sb.Append($$"""
@@ -43,7 +45,7 @@ public class PlayingCardTagHelper : TagHelper
             </g>
           """);
 
-        // Add the pips
+        //Add the pips
         foreach (var (x, y, flip) in pips)
         {
             if (flip)
@@ -132,7 +134,7 @@ public class PlayingCardTagHelper : TagHelper
 
           Rank.Ten => [           (leftX, 50, false),                      (rightX, 50, false),
                                   (leftX, topY, false), (midX, 50, false), (rightX, topY, false),
-                                  (leftX, botY, true),                     (rightX, botY, true),
+                                  (leftX, botY, true),   (midX, 70, false), (rightX, botY, true),
                                   (leftX, 230, true),                      (rightX, 230, true)
 
                       ],

@@ -300,4 +300,4 @@ C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Deb
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\Blackjack.Web.genruntimeconfig.cache
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\ref\Blackjack.Web.dll
 C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\tz0ihjiqws-3y8m7uxm6z.gz
-C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\xmdwtkr9zd-qg2uabp2z2.gz
+C:\Users\linds\Documents\Repos\Blackjack Web\Blackjack-Web\Blackjack.Web\obj\Debug\net9.0\compressed\xmdwtkr9zd-tryhs7bdrf.gz
