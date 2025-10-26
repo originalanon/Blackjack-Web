@@ -54,6 +54,7 @@ public class IndexModel : PageModel
 
 
     public decimal Bank { get; private set; }
+    public bool IsBroke => Bank <= 0m;
 
     [BindProperty(SupportsGet = false)]
     public decimal Bet { get; set; }
@@ -83,8 +84,6 @@ public class IndexModel : PageModel
     }
 
     //On post, start the game
-    //TODO: This doesn't persist yet, so use session cookies/TempData to persist between games
-
     #endregion
     #region OnPostStart (Start game)
 
@@ -95,7 +94,7 @@ public class IndexModel : PageModel
 
         var bank = StartBank();
 
-        // Basic validation
+        //Validate bet
         if (Bet <= 0)
         {
             Message = "Please enter a positive bet.";
@@ -153,6 +152,30 @@ public class IndexModel : PageModel
         var bank = StartBank();
 
         var busted = game.PlayerHit();
+
+        if (busted)
+        {
+            //Player loses bet
+            bank = StartBank();
+            var net = -bank.CurrentBet;
+            bank.Bank += net;
+
+            bank.CurrentBet = 0m;
+            HttpContext.Session.SetJson(BankKey, bank);
+
+            //Clear the round
+            HttpContext.Session.Remove(SessionKey);
+
+            Bank = bank.Bank;
+            Message = $"Bust! You lost ${Math.Abs(net)}. Bank: ${bank.Bank}";
+
+            if (bank.Bank <= 0)
+            {
+                Message += " You're out of money!";
+            }
+
+            return Page();
+        }
 
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
 
@@ -290,6 +313,25 @@ public class IndexModel : PageModel
     }
 
     #endregion
+
+    public IActionResult OnPostNewRun()
+    {
+        //Wipe Game, start new run
+        HttpContext.Session.Remove(SessionKey);
+
+        var bank = new BankState { Bank = 10m, CurrentBet = 0m };
+        HttpContext.Session.SetJson(BankKey, bank);
+        Bank = bank.Bank;
+
+        CurrentPlayerCards = [];
+        CurrentPlayerCardsB = [];
+        PlayerHandText = "";
+        DealerHandText = "";
+        PlayerCardScore = null;
+        Message = "New run started. You have $10.";
+
+        return Page();
+    }
     
     #region RefreshView
     private void RefreshView(BlackjackGame game)
