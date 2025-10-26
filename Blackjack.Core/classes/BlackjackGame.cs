@@ -1,3 +1,12 @@
+/**
+ * @ Author: Your name
+ * @ Create Time: 2025-10-25 00:44:33
+ * @ Modified by: Your name
+ * @ Modified time: 2025-10-25 14:57:27
+ * @ Description:
+ */
+
+
 //TODO: Document
 using System;
 
@@ -24,39 +33,37 @@ public sealed class BlackjackGame
     public bool HasSecondHand => _playerHandB is not null;
 
     //public for UI
-    public IReadOnlyList<Card> PlayerCards => _player.Hand.Cards;
+    public IReadOnlyList<Card> CurrentPlayerCards => ActiveHandIndex == 0 ? _player.Hand.Cards : (_playerHandB?.Cards ?? Array.Empty<Card>());
+    public int CurrentPlayerValue => (ActiveHandIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand)).BestValue();
 
     //Player's second hand can be null if there are no cards in the second hand
-    public IReadOnlyList<Card> PlayerCardsB => _playerHandB?.Cards ?? [];
+    public IReadOnlyList<Card> CurrentPlayerCardsB => _playerHandB?.Cards ?? [];
 
     public IReadOnlyList<Card> DealerCards => _dealer.Hand.Cards;
     public Deck RemainingDeck => _deck;
 
+
+    public string CurrentPlayerHandText() => string.Join(", ", CurrentPlayerCards);
+
+    //Value of the player's hand 
+    public int PlayerHandValue(int handIndex) => (handIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand)).BestValue();
+
     //Player's current hand 
     private Hand CurrentHand() => (ActiveHandIndex == 0) ? _player.Hand : (_playerHandB ?? _player.Hand);
 
-#endregion
-/***************************************************************/
+    #endregion
+    /***************************************************************/
 
     #region Public Properties for UI
     //More UI helpers -- these two for wheteher or not the "Split" and "Double Down" buttons should display
     public bool PlayerHandSplittable() => CurrentHand().IsSplittable && !HasSecondHand;
     public bool PlayerHandDouble() => CurrentHand().IsDouble;
 
-    public string PlayerHandText() => PlayerHandText(ActiveHandIndex);
-
     //Reworked playerHandText for new hand indexs
     public string PlayerHandText(int handIndex)
     {
         var h = handIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand);
         return string.Join(", ", h.Cards);
-    }
-
-    //Value of the player's hand 
-    public int PlayerHandValue(int handIndex)
-    {
-        var h = handIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand);
-        return h.BestValue();
     }
 
     //Total of the player's hand -- different from Value

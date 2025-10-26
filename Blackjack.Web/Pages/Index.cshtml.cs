@@ -10,9 +10,15 @@ namespace Blackjack.Web.Pages;
 public class IndexModel : PageModel
 {
     // Values to render
-    public string PlayerHand { get; private set; } = "";
+
+    //String value of player's cards
+    public string PlayerHandText { get; private set; } = "";
+
+    //String value of player's SECOND hand of cards, if they split
     public string PlayerHandB { get; private set; } = "";
-    public string DealerHand { get; private set; } = "";
+
+    //String value of Dealer's hand
+    public string DealerHandText { get; private set; } = "";
     public string Message { get; private set; } = "";
     //Renamed bc "Score" should mean player score, not cards value
     public int? PlayerCardScore { get; private set; }
@@ -27,8 +33,11 @@ public class IndexModel : PageModel
     public bool PlayerHandDouble { get; private set; } = false;
     public bool PlayerHandSplittable { get; private set; } = false;
 
-    //Player's active hand (for splitting)
+    //Player's active hand index (for splitting)
     public int ActiveHandIndex { get; private set; }
+
+    public IReadOnlyList<Card> CurrentPlayerCards { get; private set; } = Array.Empty<Card>();
+    public IReadOnlyList<Card> CurrentPlayerCardsB { get; private set; } = Array.Empty<Card>();
 
     private const string SessionKey = "BLACKJACK_STATE";
 
@@ -50,14 +59,17 @@ public class IndexModel : PageModel
         //Set game state on start
         HttpContext.Session.SetJson(SessionKey, state);
 
-        PlayerHand = game.PlayerHandText();
-        DealerHand = game.DealerHandText(revealHole: false);
+        PlayerHandText = game.CurrentPlayerHandText();
+        DealerHandText = game.DealerHandText(revealHole: false);
 
         PlayerCardScore = game.PlayerHandTotal();
         DealerCardScoreUnknown = game.DealerHandTotalUnknown();
 
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
+
+        CurrentPlayerCards = game.CurrentPlayerCards;
+        CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
         Message = "Game start!";
 
@@ -79,14 +91,17 @@ public class IndexModel : PageModel
 
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
 
-        PlayerHand = game.PlayerHandText();
-        DealerHand = game.DealerHandText(false);
+        PlayerHandText = game.CurrentPlayerHandText();
+        DealerHandText = game.DealerHandText(false);
 
         PlayerCardScore = game.PlayerHandTotal();
         DealerCardScoreUnknown = game.DealerHandTotalUnknown();
 
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
+
+        CurrentPlayerCards = game.CurrentPlayerCards;
+        CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
         Message = busted ? "Bust!" : "Hit or stand?";
 
@@ -109,11 +124,14 @@ public class IndexModel : PageModel
 
         HttpContext.Session.Remove(SessionKey);
 
-        PlayerHand = game.PlayerHandText();
-        DealerHand = game.DealerHandText(revealHole: true);
+        PlayerHandText = game.CurrentPlayerHandText();
+        DealerHandText = game.DealerHandText(revealHole: true);
 
         PlayerCardScore = game.PlayerHandTotal();
         DealerCardScoreKnown = game.DealerHandTotalKnown();
+
+        CurrentPlayerCards = game.CurrentPlayerCards;
+        CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
         Message = outcome.ToString();
 
@@ -173,10 +191,13 @@ public class IndexModel : PageModel
         {
             var outcome = game.ResolveAfterPlayerStand();
             HttpContext.Session.Remove(SessionKey);
-            PlayerHand = game.PlayerHandText(0);
+            PlayerHandText = game.PlayerHandText(0);
             PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
-            DealerHand = game.DealerHandText(true);
-            PlayerCardScore  = game.PlayerHandValue(game.ActiveHandIndex);
+            DealerHandText = game.DealerHandText(true);
+            PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
+            
+            CurrentPlayerCards = game.CurrentPlayerCards;
+            CurrentPlayerCardsB = game.CurrentPlayerCardsB;
             Message= $"Doubled down! {outcome}";
             return Page();
         }
@@ -189,11 +210,13 @@ public class IndexModel : PageModel
 
     private void RefreshView(BlackjackGame game)
     {
-        PlayerHand  = game.PlayerHandText(0);
+        PlayerHandText  = game.PlayerHandText(0);
         PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
-        DealerHand  = game.DealerHandText(false);
+        DealerHandText  = game.DealerHandText(false);
         PlayerCardScore   = game.PlayerHandValue(game.ActiveHandIndex);
         ActiveHandIndex = game.ActiveHandIndex;
+        CurrentPlayerCards = game.CurrentPlayerCards;
+        CurrentPlayerCardsB = game.CurrentPlayerCardsB;
     }
 
     //TODO: Bet?

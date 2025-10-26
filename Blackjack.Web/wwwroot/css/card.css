@@ -1,21 +1,19 @@
-.card { 
-    width: 140px; 
-    height: 196px; 
-    margin: .25rem; 
-}
-
+.card { width:140px; 
+        height:196px; 
+        float:right;
+    }
 .card .card-bg { 
-    fill: #fff; 
-    stroke: #222; 
-    stroke-width: 3px; 
+    fill:#fff; 
+    stroke:#222; 
+    stroke-width:3px; 
 }
 
-.card.red  .idx, .card.red  .suit, .card.red  .pip, .card.red  .face { 
-    fill: #c1121f; 
-}
-.card.black .idx, .card.black .suit, .card.black .pip, .card.black .face { 
-    fill: #111; 
-}
+.idx, .suit, .pip, .face { fill: currentColor; }
+
+svg.card.red   { color: #c1121f; }
+svg.card.black { color: #111; }
+
+
 
 .idx { font: 700 18px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }
 .suit { font: 700 18px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Color Emoji"; }

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "WlyR41YnGsuMpg/ab/Ab31pYBAYEI4XtjHzzTZ8QSR0=",
+  "Hash": "+nD19n/QnozgLGa1NO+P+jGi4AV1KZqz+atNXLR3pkM=",
   "Source": "Blackjack.Web",
   "BasePath": "_content/Blackjack.Web",
   "Mode": "Default",
@@ -1319,6 +1319,27 @@
       "OriginalItemSpec": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/scopedcss/bundle/Blackjack.Web.styles.css"
     },
     {
+      "Identity": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/xmdwtkr9zd-8lwttq29px.gz",
+      "SourceId": "Blackjack.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/",
+      "BasePath": "_content/Blackjack.Web",
+      "RelativePath": "css/card#[.{fingerprint=8lwttq29px}]?.css.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "2jf3i5abws",
+      "Integrity": "oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css"
+    },
+    {
       "Identity": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/yz6xfznooz-notf2xhcfb.gz",
       "SourceId": "Blackjack.Web",
       "SourceType": "Discovered",
@@ -1401,6 +1422,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/scopedcss/projectbundle/Blackjack.Web.bundle.scp.css"
+    },
+    {
+      "Identity": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css",
+      "SourceId": "Blackjack.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/",
+      "BasePath": "_content/Blackjack.Web",
+      "RelativePath": "css/card#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8lwttq29px",
+      "Integrity": "PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/card.css"
     },
     {
       "Identity": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/site.css",
@@ -2752,7 +2794,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2805,7 +2847,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2842,7 +2884,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2889,7 +2931,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2950,7 +2992,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -2995,7 +3037,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3050,7 +3092,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3111,7 +3153,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3156,7 +3198,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3211,7 +3253,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3264,7 +3306,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3301,7 +3343,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Oct 2025 21:58:01 GMT"
+          "Value": "Sat, 25 Oct 2025 07:56:46 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -3320,6 +3362,304 @@
         {
           "Name": "integrity",
           "Value": "sha256-wOLRZhc4prp6q39++3WcaT4PtiaQxRDrE1mId+Ru0Lc="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.8lwttq29px.css",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/xmdwtkr9zd-8lwttq29px.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002915451895"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "342"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8lwttq29px"
+        },
+        {
+          "Name": "label",
+          "Value": "css/card.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.8lwttq29px.css",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "718"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8lwttq29px"
+        },
+        {
+          "Name": "label",
+          "Value": "css/card.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.8lwttq29px.css.gz",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/xmdwtkr9zd-8lwttq29px.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8lwttq29px"
+        },
+        {
+          "Name": "label",
+          "Value": "css/card.css.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.css",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/xmdwtkr9zd-8lwttq29px.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.002915451895"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "342"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.css",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "718"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM="
+        }
+      ]
+    },
+    {
+      "Route": "css/card.css.gz",
+      "AssetFile": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/obj/Debug/net9.0/compressed/xmdwtkr9zd-8lwttq29px.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "342"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sat, 25 Oct 2025 20:11:34 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oqincWefp23ACepsJBhzq5cyx846oCy3KcsCq1SIRSM="
         }
       ]
     },
