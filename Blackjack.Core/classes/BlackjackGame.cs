@@ -59,7 +59,7 @@ public sealed class BlackjackGame
     public string PlayerHandText(int handIndex)
     {
         var h = handIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand);
-        return string.Join(", ", h.Cards);
+        return string.Join("\n", h.Cards);
     }
 
     //Total of the player's hand -- different from Value
@@ -90,6 +90,7 @@ public sealed class BlackjackGame
         var restHidden = _dealer.Hand.Cards.Count > 1 ? ", [hole card]" : "";
         return $"{first}{restHidden}";
     }
+    
 
     #endregion
 
@@ -176,6 +177,26 @@ public sealed class BlackjackGame
         }
 
         return true;
+    }
+
+    public int ScoreForPlayerHands()
+    {
+        int total = 0;
+
+        foreach (var c in _player.Hand.Cards)
+        {
+            total += c.CardScore;
+        }
+
+        if (HasSecondHand && _playerHandB != null)
+        {
+            foreach (var c in _playerHandB.Cards)
+            {
+                total += c.CardScore;
+            }
+        }
+        
+        return total;
     }
 
     #endregion
