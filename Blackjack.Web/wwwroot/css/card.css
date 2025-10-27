@@ -24,6 +24,10 @@ svg.card.black .suit,
 svg.card.black .pip,
 svg.card.black .face { fill:#111; }
 
+svg.card.back {
+  background-color: #111;
+}
+
 svg.card.standard-mat{
   fill: blue;
   background-color: gray;

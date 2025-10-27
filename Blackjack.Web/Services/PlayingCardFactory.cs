@@ -31,7 +31,7 @@ public class PlayingCardTagHelper : TagHelper
     var pips = PipLayout(Rank);
 
         var sb = new StringBuilder();
-        sb.Append("""<rect x="2" y="2" width="196" height="276" rx="12" fill="#fff" stroke="#222" stroke-width="3"/>""");
+        sb.Append("""<rect x="2" y="2" width="196" height="276" rx="12" stroke="#222" stroke-width="3"/>""");
 
         //Corners
         var rankText = RankToText(Rank);

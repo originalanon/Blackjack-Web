@@ -49,6 +49,8 @@ public class IndexModel : PageModel
 
     public IReadOnlyList<Card> DealerCards { get; private set; } = Array.Empty<Card>();
 
+    public bool RevealDealerHole { get; private set; }
+
     #region State Keys
     private const string SessionKey = "BLACKJACK_STATE";
     private const string BankKey = "BANK_STATE";
@@ -152,6 +154,8 @@ public class IndexModel : PageModel
             DealerCardScoreKnown = game.DealerHandTotalKnown();
             Bank = bank.Bank;
 
+            RevealDealerHole = true; 
+
             Message = $"Blackjack! You win ${net}. Bank: ${bank.Bank}";
             return Page();
         }
@@ -177,7 +181,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = false; 
 
         Bank = bank.Bank;
         Message = $"Bet locked: ${bank.CurrentBet}";
@@ -225,6 +230,8 @@ public class IndexModel : PageModel
                 Message += " You're out of money!";
             }
 
+             RevealDealerHole = true; 
+
             return Page();
         }
         else
@@ -243,7 +250,8 @@ public class IndexModel : PageModel
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = false;
 
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
@@ -294,7 +302,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = true;
 
         Bank = bank.Bank;
         Message = $"{outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
@@ -406,7 +415,9 @@ public class IndexModel : PageModel
 
         CurrentPlayerCards = [];
         CurrentPlayerCardsB = [];
-        DealerCards= [];
+        DealerCards = [];
+        RevealDealerHole = false; 
+
         PlayerHandText = "";
         DealerHandText = "";
         PlayerCardScore = null;
@@ -429,7 +440,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        
     }
 
     #endregion

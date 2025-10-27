@@ -88,8 +88,32 @@
 
       <div class="col-12 col-md-6">
         <h5 class="mb-2">Dealer</h5>
-        <div class="mb-2">
-          <textarea readonly style="width:100%;height:100px;">@Model.DealerHandText</textarea>
+        <div class="hand mb-2">
+          @if (Model.DealerCards.Count == 0)
+          {
+            <text></text>
+          }
+          else if (!Model.RevealDealerHole)
+          {
+
+            var first = Model.DealerCards[0];
+            <playing-card rank="@first.Rank" suit="@first.Suit"></playing-card>
+
+
+            var hidden = Math.Max(0, Model.DealerCards.Count - 1);
+            for (int i = 0; i < hidden; i++)
+            {
+                <playing-card-back></playing-card-back>
+            }
+          }
+          else
+          {
+
+            @foreach (var c in Model.DealerCards)
+            {
+                <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
+            }
+          }
         </div>
       </div>
 

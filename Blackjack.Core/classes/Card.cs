@@ -52,13 +52,17 @@ public class Card
 
     public int CardScore { get; set; }
 
+
+    //TODO: Card score based off of ((rank * 10) + material bonus) * coat mult)
     public Card(Rank rank, Suit suit)
     {
         Rank = rank;
         Suit = suit;
-        CardScore = this.Rank.GetValue() * 10;
         this.Coat = GenerateRandomCoat();
         this.CardMaterial = GenerateRandomMaterial();
+
+        CardScore = this.Rank.GetValue() * 10;
+
     }
 
     /// <summary>
