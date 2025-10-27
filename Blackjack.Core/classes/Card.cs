@@ -50,8 +50,8 @@ public class Card
     //Card material
     public CardMaterial CardMaterial { get; set; }
 
-    public int CardScore { get; set; }
-
+    //Card score has to be +1 to coat mult or else it'd be 0 for standard
+    public int CardScore => Rank.GetValue() + ((int)CardMaterial) * (((int)Coat) + 1); 
 
     //TODO: Card score based off of ((rank * 10) + material bonus) * coat mult)
     public Card(Rank rank, Suit suit)
@@ -60,8 +60,6 @@ public class Card
         Suit = suit;
         this.Coat = GenerateRandomCoat();
         this.CardMaterial = GenerateRandomMaterial();
-
-        CardScore = this.Rank.GetValue() * 10;
 
     }
 
@@ -80,10 +78,10 @@ public class Card
 
     return roll switch
     {
-        <= 0.80 => CardCoat.Standard,
-        <= 0.92 => CardCoat.Foil,
+        <= 0.70 => CardCoat.Standard,
+        <= 0.88 => CardCoat.Foil,
         <= 0.97 => CardCoat.Holographic,
-        <= 0.995 => CardCoat.Prismatic,
+        <= 0.993 => CardCoat.Prismatic,
         _ => CardCoat.Specular
     };
 }
@@ -94,14 +92,13 @@ public class Card
 
         return roll switch
         {
-            <= 0.80 => CardMaterial.Standard,
-            <= 0.92 => CardMaterial.Stone,
+            <= 0.70 => CardMaterial.Standard,
+            <= 0.88 => CardMaterial.Stone,
             <= 0.97 => CardMaterial.Silver,
-            <= 0.995 => CardMaterial.Gold,
-            <= 0.999 => CardMaterial.Platinum,
+            <= 0.993 => CardMaterial.Gold,
+            <= 0.998 => CardMaterial.Platinum,
             _ => CardMaterial.Ethereum
         };
     }
-
 
 }

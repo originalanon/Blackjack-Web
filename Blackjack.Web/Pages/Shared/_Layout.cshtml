@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Blackjack.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/card.css" asp-append-version="true"/>
-
-    
-    <audio id="bgm" src="~/assets/bgm.mp3" loop></audio>
 </head>
 <body>
     <header>
@@ -43,7 +40,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - Blackjack.Web - For Praeses - By Lindsay Barton - <a href="https://www.youtube.com/watch?v=R7iKIUcQNoM">Music</a> by Anything_F_744 <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2025 - Blackjack - For Praeses - By Lindsay Barton<a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
@@ -51,6 +48,57 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+
+    <!-- Props to https://github.com/simeydotme/pokemon-cards-css for this-->
+   <script>
+    (() => {
+    const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
+    document.addEventListener('pointermove', e => {
+        const wrap = e.target.closest('.card-wrap'); if(!wrap) return;
+        const card = wrap.querySelector('.card');    if(!card) return;
+        const r = wrap.getBoundingClientRect();
+        const px = clamp((e.clientX - r.left)/r.width, 0, 1);
+        const py = clamp((e.clientY - r.top)/r.height, 0, 1);
+        wrap.style.setProperty('--mx', (px*100)+'%');
+        wrap.style.setProperty('--my', (py*100)+'%');
+        const rx = (py-0.5)*-18, ry=(px-0.5)*18;
+        card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    document.addEventListener('pointerleave', e => {
+        const wrap = e.target.closest?.('.card-wrap'); if(!wrap) return;
+        const card = wrap.querySelector('.card'); if(card) card.style.transform='';
+    });
+    })();
+    </script>
+
+
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+    (() => {
+    const COAT_CLASSES = ['standard-coat','foil','holographic','prismatic','specular'];
+
+    document.querySelectorAll('.card-wrap').forEach(wrap => {
+        if (!wrap.querySelector('.holo')) {
+        const d = document.createElement('div');
+        d.className = 'holo';
+        wrap.appendChild(d);
+        }
+        const svg = wrap.querySelector('svg.card');
+        if (!svg) return;
+
+        COAT_CLASSES.forEach(c => {
+        if (svg.classList.contains(c)) wrap.classList.add(c);
+        else wrap.classList.remove(c);
+        });
+
+        wrap.style.position = 'relative';
+        svg.style.position = 'relative';
+        svg.style.zIndex = 0;
+        wrap.querySelector('.holo').style.zIndex = 2;
+    });
+    })();
+    </script>
+
 </body>
 </html>

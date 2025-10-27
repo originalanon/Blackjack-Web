@@ -67,7 +67,10 @@
           {
             foreach (var c in Model.CurrentPlayerCards)
             {
-              <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
+              <div class="card-wrap" data-tilt title="@($"{c.CardMaterial} | {c.Coat}")">
+                <playing-card rank="@c.Rank" suit="@c.Suit" coat="@c.Coat" material="@c.CardMaterial"></playing-card>
+              <div class="holo"></div>
+              </div>
             }
           }
         </div>
@@ -80,7 +83,10 @@
           <div class="hand">
             @foreach (var c in Model.CurrentPlayerCardsB)
             {
-              <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
+              <div class="card-wrap" data-tilt title="@($"{c.CardMaterial} | {c.Coat}")">
+                <playing-card rank="@c.Rank" suit="@c.Suit" coat="@c.Coat" material="@c.CardMaterial"></playing-card>
+              <div class="holo"></div>
+              </div>
             }
           </div>
         }
@@ -97,13 +103,19 @@
           {
 
             var first = Model.DealerCards[0];
-            <playing-card rank="@first.Rank" suit="@first.Suit"></playing-card>
 
+            <div class="card-wrap" data-tilt title="@($"{first.CardMaterial} | {first.Coat}")">
+              <playing-card rank="@first.Rank" suit="@first.Suit" coat="@first.Coat" material="@first.CardMaterial"></playing-card>
+            <div class="holo"></div>
+            </div>
 
             var hidden = Math.Max(0, Model.DealerCards.Count - 1);
             for (int i = 0; i < hidden; i++)
             {
-                <playing-card-back></playing-card-back>
+                <div class="card-wrap" data-tilt>
+                  <playing-card-back></playing-card-back>
+                <div class="holo"></div>
+                </div>
             }
           }
           else
@@ -111,24 +123,15 @@
 
             @foreach (var c in Model.DealerCards)
             {
-                <playing-card rank="@c.Rank" suit="@c.Suit"></playing-card>
+                <div class="card-wrap" data-tilt title="@($"{c.CardMaterial} | {c.Coat}")">
+                  <playing-card rank="@c.Rank" suit="@c.Suit" coat="@c.Coat" material="@c.CardMaterial"></playing-card>
+                <div class="holo"></div>
+                </div>
             }
           }
         </div>
       </div>
 
-      <script>
-        const bgm = document.getElementById('bgm');
-        function toggleMusic() {
-          if (bgm.paused) {
-            bgm.play();
-          }
-          else 
-            bgm.pause();
-          }
-      </script>
-
-      <button onclick="toggleMusic()" class="btn btn-sm btn-light">Toggle Music</button>
       </div>
     }
 

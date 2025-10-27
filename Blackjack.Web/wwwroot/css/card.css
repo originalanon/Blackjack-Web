@@ -29,10 +29,51 @@ svg.card.back {
 }
 
 svg.card.standard-mat{
-  fill: blue;
-  background-color: gray;
+  fill: white;
 }
 
+svg.card.stone{
+  fill: rgb(200, 195, 172);
+}
+
+svg.card.gold{
+  fill: rgb(214, 197, 100);
+}
+
+svg.card.silver{
+  fill: silver;
+}
+
+svg.card.platinum{
+  fill:#e9e0ff;
+}
+
+svg.card.ethereum{
+  fill:#caffc9;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  cursor: pointer;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 130px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 
 .idx,.suit,.pip,.face{
   font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
@@ -54,3 +95,40 @@ svg.card.standard-mat{
 
 .face{
   font:900 84px ui-serif, Georgia, "Times New Roman", serif}
+
+
+/* Props to https://github.com/simeydotme/pokemon-cards-css for inspiration for this*/
+/* wrapper + overlay */
+.card-wrap { position: relative; display:inline-block; perspective:900px; }
+.card-wrap .card { position:relative; z-index:0; transform-style:preserve-3d; transition:transform .18s ease, filter .18s ease; }
+
+.card-wrap .holo { position:absolute; inset:8px; border-radius:10px; pointer-events:none; z-index:2;
+  mix-blend-mode:screen; opacity:var(--glare-alpha,0);
+  background:
+    radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(255,255,255,.35), rgba(255,255,255,.05) 35%, transparent 60%),
+    conic-gradient(from 0deg at var(--mx,50%) var(--my,50%), #ff3 0deg, #f0f 60deg, #0ff 120deg, #ff3 180deg, #f0f 240deg, #0ff 300deg, #ff3 360deg);
+  opacity: calc(var(--glare-alpha, 0) + 0.06); /* small base */
+  filter: saturate(130%) brightness(110%);
+}
+
+.card-wrap:has(svg.standard-coat) .holo{--glare-alpha:0}
+.card-wrap:has(svg.foil)          .holo{--glare-alpha:.18}
+.card-wrap:has(svg.holographic)   .holo{--glare-alpha:.28}
+.card-wrap:has(svg.prismatic)     .holo{--glare-alpha:.36}
+.card-wrap:has(svg.specular)      .holo{--glare-alpha:.46}
+
+.card-wrap.standard-coat .holo{--glare-alpha:0}
+.card-wrap.foil          .holo{--glare-alpha:.18}
+.card-wrap.holographic   .holo{--glare-alpha:.28}
+.card-wrap.prismatic     .holo{--glare-alpha:.36}
+.card-wrap.specular      .holo{--glare-alpha:.46}
+
+@keyframes holoSpin { from{ filter:hue-rotate(0deg) } to{ filter:hue-rotate(360deg) } }
+.card-wrap:has(svg.prismatic) .holo,
+.card-wrap:has(svg.specular)  .holo { animation: holoSpin 6s linear infinite; opacity: calc(var(--glare-alpha)*.85); }
+
+/* keep existing layout */
+.hand{ display:flex; gap:.5rem; align-items:flex-start; }
+svg.card{ width:140px; height:196px; display:inline-block; flex:0 0 auto; }
+
+
