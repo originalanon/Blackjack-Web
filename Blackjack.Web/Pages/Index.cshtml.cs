@@ -201,6 +201,7 @@ public class IndexModel : PageModel
         var bank = StartBank();
 
         var busted = game.PlayerHit();
+        var outcome = game.ResolveAfterPlayerStand();
 
         if (busted)
         {
@@ -230,7 +231,7 @@ public class IndexModel : PageModel
         {
             SetUi(UiState.InHand);
         }
-
+        
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
 
         PlayerHandText = game.CurrentPlayerHandText();
@@ -316,7 +317,7 @@ public class IndexModel : PageModel
 
         if (!game.PlayerHandSplittable())
         {
-            Message = "You can’t split this hand.";
+            Message = "You can't split this hand.";
         }
         else
         {
@@ -346,7 +347,7 @@ public class IndexModel : PageModel
 
         if (!game.PlayerHandDouble())
         {
-            Message = "You can’t double down on this hand.";
+            Message = "You can't double down on this hand.";
             RefreshView(game);
             return Page();
         }

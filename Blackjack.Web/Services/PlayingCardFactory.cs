@@ -13,6 +13,10 @@ public class PlayingCardTagHelper : TagHelper
     [HtmlAttributeName("rank")] public Rank Rank { get; set; }
     [HtmlAttributeName("suit")] public Suit Suit { get; set; }
 
+    [HtmlAttributeName("coat")] public CardCoat CardCoat { get; set; }
+
+    [HtmlAttributeName("material")] public CardMaterial CardMaterial { get; set; }
+
 
   public override void Process(TagHelperContext context, TagHelperOutput output)
     {
@@ -20,12 +24,9 @@ public class PlayingCardTagHelper : TagHelper
       output.Attributes.SetAttribute("viewBox", "0 0 200 280");
       output.Attributes.SetAttribute("width", "140");
       output.Attributes.SetAttribute("height", "196");
-      output.Attributes.SetAttribute("class", $"card {(IsRed(Suit) ? "red" : "black")}");
+      output.Attributes.SetAttribute("class", $"card {(IsRed(Suit) ? "red" : "black")} {GetCoat(CardCoat)} {GetMaterial(CardMaterial)}");
         
-      output.Attributes.SetAttribute(
-        "style",
-        "font-family: ui-sans-serif,system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;"
-      );
+      output.Attributes.SetAttribute("style","font-family: ui-sans-serif, system-ui, -apple-system,'Segoe UI', Roboto, Arial, sans-serif;");
 
     var pips = PipLayout(Rank);
 
@@ -71,78 +72,97 @@ public class PlayingCardTagHelper : TagHelper
         Suit.Clubs => "♣",
         _ => "?"
     };
-    private static string RankToText(Rank r) => r switch
+  private static string RankToText(Rank r) => r switch
+  {
+    Rank.Ace => "A",
+    Rank.Jack => "J",
+    Rank.Queen => "Q",
+    Rank.King => "K",
+    _ => r.GetValue().ToString()
+  };
+
+  private static string GetMaterial(CardMaterial c) => c switch
+  {
+    CardMaterial.Standard => "standard-mat",
+    CardMaterial.Stone => "stone",
+    CardMaterial.Silver => "silver",
+    CardMaterial.Gold => "gold",
+    CardMaterial.Platinum => "platinum",
+    CardMaterial.Ethereum => "ethereum",
+    _ => c.ToString()
+  };
+
+ private static string GetCoat(CardCoat c) => c switch
+  {
+    CardCoat.Standard => "standard-coat",
+    CardCoat.Foil => "foil",
+    CardCoat.Holographic => "holographic",
+    CardCoat.Prismatic => "prismatic",
+    CardCoat.Specular => "specular",
+    _ => c.ToString()
+  };
+
+  private static (int x, int y, bool flip)[] PipLayout(Rank rank)
+  {
+
+    int midX = 100;
+    int leftX = 60, rightX = 140;
+    int topY = 70, midY = 140, botY = 210;
+
+    return rank switch
     {
-        Rank.Ace => "A",
-        Rank.Jack => "J",
-        Rank.Queen => "Q",
-        Rank.King => "K",
-        _ => r.GetValue().ToString()
-    };
 
-    private static (int x, int y, bool flip)[] PipLayout(Rank rank)
-    {
+      Rank.Ace => [(midX, midY, false)],
 
-        int midX = 100;
-        int leftX = 60, rightX = 140;
-        int topY = 70, midY = 140, botY = 210;
+      Rank.Two => [(midX, topY, false), (midX, botY, true)],
 
-        return rank switch
-        {
+      Rank.Three => [(midX, topY, false), (midX, midY, false), (midX, botY, true)],
 
-          Rank.Ace => [(midX, midY, false)],
-
-          Rank.Two => [(midX, topY, false), (midX, botY, true)],
-
-          Rank.Three => [(midX, topY, false), (midX, midY, false), (midX, botY, true)],
-
-          Rank.Four => [ (leftX, topY, false), (rightX, topY, false),
+      Rank.Four => [ (leftX, topY, false), (rightX, topY, false),
                          (leftX, botY, true),  (rightX, botY, true) ],
 
-          /**********
-          * God bless ASCII art
-          *   _____
-          *  |5    |
-          *  | v v |
-          *  |  v  |
-          *  | v v |
-          *  |____S|
-          */
-          Rank.Five => [ (leftX, topY, false), (rightX, topY, false),
+      /**********
+      * God bless ASCII art
+      *   _____
+      *  |5    |
+      *  | v v |
+      *  |  v  |
+      *  | v v |
+      *  |____S|
+      */
+      Rank.Five => [ (leftX, topY, false), (rightX, topY, false),
                                   (midX, midY, false),
                          (leftX, botY, true),  (rightX, botY, true) ],
 
-          Rank.Six => [ (leftX, topY, false), (rightX, topY, false),
+      Rank.Six => [ (leftX, topY, false), (rightX, topY, false),
                         (leftX, midY, false), (rightX, midY, false),
                         (leftX, botY, true),  (rightX, botY, true) ],
 
 
-          Rank.Seven => [(leftX, topY, false),                     (rightX, topY, false),
+      Rank.Seven => [(leftX, topY, false),                     (rightX, topY, false),
                          (leftX, midY, false), (midX, 50, false), (rightX, midY, false),
                          (leftX, botY, true),                      (rightX, botY, true) ],
 
-          Rank.Eight => [ (leftX, 50, false),   (rightX, 50, false),
+      Rank.Eight => [ (leftX, 50, false),   (rightX, 50, false),
                           (leftX, topY, false), (rightX, topY, false),
                           (leftX, botY, true),  (rightX, botY, true),
                           (leftX, 230, true),   (rightX, 230, true) ],
 
-          //TODO: Fix Ten
-          Rank.Nine => [          (leftX, 50, false),                      (rightX, 50, false),
+      Rank.Nine => [          (leftX, 50, false),                      (rightX, 50, false),
                                   (leftX, topY, false), (midX, midY, false), (rightX, topY, false),
                                   (leftX, botY, true),                     (rightX, botY, true),
                                   (leftX, 230, true),                      (rightX, 230, true) ],
 
-          Rank.Ten => [           (leftX, 50, false),                      (rightX, 50, false),
+      Rank.Ten => [           (leftX, 50, false),                      (rightX, 50, false),
                                   (leftX, topY, false), (midX, 50, false), (rightX, topY, false),
                                   (leftX, botY, true),   (midX, 70, false), (rightX, botY, true),
                                   (leftX, 230, true),                      (rightX, 230, true)
 
-                      ],
+                  ],
 
-          //TODO: Display face cards
-          Rank.Jack or Rank.Queen or Rank.King => Array.Empty<(int, int, bool)>(),
+      Rank.Jack or Rank.Queen or Rank.King => Array.Empty<(int, int, bool)>(),
 
-          _ => Array.Empty<(int, int, bool)>()
-        };
-    }
+      _ => Array.Empty<(int, int, bool)>()
+    };
+  }
 }

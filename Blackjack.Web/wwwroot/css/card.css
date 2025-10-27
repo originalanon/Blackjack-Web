@@ -23,6 +23,10 @@ svg.card.black .suit,
 svg.card.black .pip,
 svg.card.black .face { fill:#111 !important; }
 
+.standard-mat{
+  fill: blue;
+}
+
 .idx,.suit,.pip,.face{
   font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
 }

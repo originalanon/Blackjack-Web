@@ -59,7 +59,7 @@ public sealed class BlackjackGame
     public string PlayerHandText(int handIndex)
     {
         var h = handIndex == 0 ? _player.Hand : (_playerHandB ?? _player.Hand);
-        return string.Join(", ", h.Cards);
+        return string.Join("\n", h.Cards);
     }
 
     //Total of the player's hand -- different from Value
