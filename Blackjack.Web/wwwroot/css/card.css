@@ -11,21 +11,24 @@
   height: 196px;
   flex: 0 0 auto;
   margin-right: 0.5rem;
+  box-shadow: 4px 5px 5px 2px #737373;
 }
 
 svg.card.red  .idx,
 svg.card.red  .suit,
 svg.card.red  .pip,
-svg.card.red  .face { fill:#c1121f !important; }
+svg.card.red  .face { fill:#c1121f; }
 
 svg.card.black .idx,
 svg.card.black .suit,
 svg.card.black .pip,
-svg.card.black .face { fill:#111 !important; }
+svg.card.black .face { fill:#111; }
 
-.standard-mat{
+svg.card.standard-mat{
   fill: blue;
+  background-color: gray;
 }
+
 
 .idx,.suit,.pip,.face{
   font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
