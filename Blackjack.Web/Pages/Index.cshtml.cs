@@ -54,6 +54,12 @@ public class IndexModel : PageModel
     #region State Keys
     private const string SessionKey = "BLACKJACK_STATE";
     private const string BankKey = "BANK_STATE";
+
+private const string ScoreKey = "BLACKJACK_SCORE";
+
+public int PlayerTotalScore { get; private set; }
+
+
     #endregion
 
     #region Ui State
@@ -86,6 +92,7 @@ public class IndexModel : PageModel
     public void OnGet() {
         StartBank();
         Ui = GetUi();
+        LoadScore();
     }
 
     #endregion
@@ -115,6 +122,7 @@ public class IndexModel : PageModel
         BlackjackGame game = new BlackjackGame(decks: 1);
 
         var bank = StartBank();
+        LoadScore();
 
         //Validate bet
         if (Bet <= 0)
@@ -139,6 +147,7 @@ public class IndexModel : PageModel
         if (game.PlayerHandTotal() == 21)
         {
             SetUi(UiState.PostHand);
+            LoadScore();
 
             var outcome = BlackjackGame.Outcome.PlayerBlackjack;
             var net = BettingService.NetPayout(outcome, bank.CurrentBet);
@@ -147,6 +156,8 @@ public class IndexModel : PageModel
             HttpContext.Session.SetJson(BankKey, bank);
 
             HttpContext.Session.Remove(SessionKey); // round over
+
+            AddToScore(game.ScoreForPlayerHands());
 
             PlayerHandText = game.CurrentPlayerHandText();
             DealerHandText = game.DealerHandText(true);
@@ -161,7 +172,8 @@ public class IndexModel : PageModel
         }
         else
         {
-             SetUi(UiState.InHand);   
+            SetUi(UiState.InHand);
+            LoadScore();
         }
 
         GameState state = GameStateMapper.ToState(game);
@@ -236,6 +248,7 @@ public class IndexModel : PageModel
             Bank = bank.Bank;
 
             SetUi(UiState.PostHand);
+            LoadScore();
 
             //Clear the round
             HttpContext.Session.Remove(SessionKey);
@@ -252,6 +265,7 @@ public class IndexModel : PageModel
         else
         {
             SetUi(UiState.InHand);
+            LoadScore();
         }
         
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
@@ -295,6 +309,13 @@ public class IndexModel : PageModel
 
         var outcome = game.ResolveAfterPlayerStand();
         SetUi(UiState.PostHand);
+        LoadScore();
+
+        if (outcome is BlackjackGame.Outcome.PlayerBlackjack or BlackjackGame.Outcome.DealerBust or BlackjackGame.Outcome.PlayerWin)
+        {
+            var gained = game.ScoreForPlayerHands();
+            AddToScore(gained);
+        }
 
         var net = BettingService.NetPayout(outcome, bank.CurrentBet);
         bank.Bank += net;
@@ -350,11 +371,17 @@ public class IndexModel : PageModel
             Message = "Split! Playing Hand #1.";
 
             SetUi(UiState.InHand);
+            LoadScore();
 
             var bank = StartBank();
 
             var outcome = game.ResolveAfterPlayerStand();
             SetUi(UiState.PostHand);
+
+            if (outcome is BlackjackGame.Outcome.PlayerBlackjack or BlackjackGame.Outcome.DealerBust or BlackjackGame.Outcome.PlayerWin)
+            {
+                AddToScore(game.ScoreForPlayerHands());
+            }
 
             var net = BettingService.NetPayout(outcome, bank.CurrentBet);
             bank.Bank += net;
@@ -465,15 +492,29 @@ public class IndexModel : PageModel
         CurrentPlayerCards = [];
         CurrentPlayerCardsB = [];
         DealerCards = [];
-        RevealDealerHole = false; 
+        RevealDealerHole = false;
 
         PlayerHandText = "";
         DealerHandText = "";
         PlayerCardScore = null;
         Message = "New run started. You have $10.";
         SetUi(UiState.PreDeal);
+        LoadScore();
 
         return Page();
+    }
+    
+    private void LoadScore()
+    {
+        PlayerTotalScore = HttpContext.Session.GetInt32(ScoreKey) ?? 0;
+    }
+
+    private void AddToScore(int amount)
+    {
+        var current = HttpContext.Session.GetInt32(ScoreKey) ?? 0;
+        current += amount;
+        HttpContext.Session.SetInt32(ScoreKey, current);
+        PlayerTotalScore = current;
     }
     
     #region RefreshView
