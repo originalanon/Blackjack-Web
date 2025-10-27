@@ -165,6 +165,11 @@ public int PlayerTotalScore { get; private set; }
             DealerCardScoreKnown = game.DealerHandTotalKnown();
             Bank = bank.Bank;
 
+            CurrentPlayerCards = game.CurrentPlayerCards;
+            CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+            DealerCards = game.DealerCards;
+
             RevealDealerHole = true; 
 
             Message = $"Blackjack! You win ${net}. Bank: ${bank.Bank}";
