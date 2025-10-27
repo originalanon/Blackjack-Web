@@ -20,7 +20,6 @@ public sealed class BlackjackGame
 
     #endregion
 
-
     /***************************************************************/
     #region Public Properties
 
@@ -179,26 +178,6 @@ public sealed class BlackjackGame
         return true;
     }
 
-    public int ScoreForPlayerHands()
-    {
-        int total = 0;
-
-        foreach (var c in _player.Hand.Cards)
-        {
-            total += c.CardScore;
-        }
-
-        if (HasSecondHand && _playerHandB != null)
-        {
-            foreach (var c in _playerHandB.Cards)
-            {
-                total += c.CardScore;
-            }
-        }
-        
-        return total;
-    }
-
     #endregion
 
     /**********************************/
@@ -215,8 +194,26 @@ public sealed class BlackjackGame
         var candidates = new[] { a <= 21 ? a : 0, b <= 21 ? b : 0 };
         return candidates.Max();
     }
-    //TODO: Update score
-    //TODO: Post-hand "store" for rare cards
+
+        public int ScoreForPlayerHands()
+        {
+            int total = 0;
+
+            foreach (var c in _player.Hand.Cards)
+            {
+                total += c.CardScore;
+            }
+
+            if (HasSecondHand && _playerHandB != null)
+            {
+                foreach (var c in _playerHandB.Cards)
+                {
+                    total += c.CardScore;
+                }
+            }
+            
+            return total;
+        }
 
     #endregion
 

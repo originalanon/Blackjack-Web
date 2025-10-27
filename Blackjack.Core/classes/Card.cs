@@ -73,18 +73,18 @@ public class Card
     }
 
     private static CardCoat GenerateRandomCoat()
-{
-    double roll = _rng.NextDouble();
-
-    return roll switch
     {
-        <= 0.70 => CardCoat.Standard,
-        <= 0.88 => CardCoat.Foil,
-        <= 0.97 => CardCoat.Holographic,
-        <= 0.993 => CardCoat.Prismatic,
-        _ => CardCoat.Specular
-    };
-}
+        double roll = _rng.NextDouble();
+
+        return roll switch
+        {
+            <= 0.70 => CardCoat.Standard,
+            <= 0.88 => CardCoat.Foil,
+            <= 0.97 => CardCoat.Holographic,
+            <= 0.993 => CardCoat.Prismatic,
+            _ => CardCoat.Specular
+        };
+    }
 
     private static CardMaterial GenerateRandomMaterial()
     {
