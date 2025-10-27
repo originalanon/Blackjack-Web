@@ -49,9 +49,17 @@ public class IndexModel : PageModel
 
     public IReadOnlyList<Card> DealerCards { get; private set; } = Array.Empty<Card>();
 
+    public bool RevealDealerHole { get; private set; }
+
     #region State Keys
     private const string SessionKey = "BLACKJACK_STATE";
     private const string BankKey = "BANK_STATE";
+
+private const string ScoreKey = "BLACKJACK_SCORE";
+
+public int PlayerTotalScore { get; private set; }
+
+
     #endregion
 
     #region Ui State
@@ -84,6 +92,7 @@ public class IndexModel : PageModel
     public void OnGet() {
         StartBank();
         Ui = GetUi();
+        LoadScore();
     }
 
     #endregion
@@ -113,6 +122,7 @@ public class IndexModel : PageModel
         BlackjackGame game = new BlackjackGame(decks: 1);
 
         var bank = StartBank();
+        LoadScore();
 
         //Validate bet
         if (Bet <= 0)
@@ -137,6 +147,7 @@ public class IndexModel : PageModel
         if (game.PlayerHandTotal() == 21)
         {
             SetUi(UiState.PostHand);
+            LoadScore();
 
             var outcome = BlackjackGame.Outcome.PlayerBlackjack;
             var net = BettingService.NetPayout(outcome, bank.CurrentBet);
@@ -146,18 +157,23 @@ public class IndexModel : PageModel
 
             HttpContext.Session.Remove(SessionKey); // round over
 
+            AddToScore(game.ScoreForPlayerHands());
+
             PlayerHandText = game.CurrentPlayerHandText();
             DealerHandText = game.DealerHandText(true);
             PlayerCardScore = game.PlayerHandTotal();
             DealerCardScoreKnown = game.DealerHandTotalKnown();
             Bank = bank.Bank;
 
+            RevealDealerHole = true; 
+
             Message = $"Blackjack! You win ${net}. Bank: ${bank.Bank}";
             return Page();
         }
         else
         {
-             SetUi(UiState.InHand);   
+            SetUi(UiState.InHand);
+            LoadScore();
         }
 
         GameState state = GameStateMapper.ToState(game);
@@ -177,7 +193,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = false; 
 
         Bank = bank.Bank;
         Message = $"Bet locked: ${bank.CurrentBet}";
@@ -204,7 +221,22 @@ public class IndexModel : PageModel
 
         if (busted)
         {
-            SetUi(UiState.PostHand);
+
+            PlayerHandText = game.CurrentPlayerHandText();
+            DealerHandText = game.DealerHandText(false);
+
+            PlayerCardScore = game.PlayerHandTotal();
+            DealerCardScoreUnknown = game.DealerHandTotalUnknown();
+
+            PlayerHandSplittable = game.PlayerHandSplittable();
+            PlayerHandDouble = game.PlayerHandDouble();
+
+            DealerCards = game.DealerCards;
+            RevealDealerHole = true;
+
+            CurrentPlayerCards = game.CurrentPlayerCards;
+            CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
             //Player loses bet
             bank = StartBank();
             var net = -bank.CurrentBet;
@@ -213,24 +245,29 @@ public class IndexModel : PageModel
             bank.CurrentBet = 0m;
             HttpContext.Session.SetJson(BankKey, bank);
 
+            Bank = bank.Bank;
+
+            SetUi(UiState.PostHand);
+            LoadScore();
+
             //Clear the round
             HttpContext.Session.Remove(SessionKey);
 
-            Bank = bank.Bank;
             Message = $"Bust! You lost ${Math.Abs(net)}.";
-
             if (bank.Bank <= 0)
             {
                 Message += " You're out of money!";
             }
+
 
             return Page();
         }
         else
         {
             SetUi(UiState.InHand);
+            LoadScore();
         }
-
+        
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
 
         PlayerHandText = game.CurrentPlayerHandText();
@@ -242,7 +279,8 @@ public class IndexModel : PageModel
         PlayerHandSplittable = game.PlayerHandSplittable();
         PlayerHandDouble = game.PlayerHandDouble();
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = false;
 
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
@@ -271,6 +309,13 @@ public class IndexModel : PageModel
 
         var outcome = game.ResolveAfterPlayerStand();
         SetUi(UiState.PostHand);
+        LoadScore();
+
+        if (outcome is BlackjackGame.Outcome.PlayerBlackjack or BlackjackGame.Outcome.DealerBust or BlackjackGame.Outcome.PlayerWin)
+        {
+            var gained = game.ScoreForPlayerHands();
+            AddToScore(gained);
+        }
 
         var net = BettingService.NetPayout(outcome, bank.CurrentBet);
         bank.Bank += net;
@@ -293,7 +338,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        RevealDealerHole = true;
 
         Bank = bank.Bank;
         Message = $"{outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
@@ -316,13 +362,52 @@ public class IndexModel : PageModel
 
         if (!game.PlayerHandSplittable())
         {
-            Message = "You can’t split this hand.";
+            Message = "You can't split this hand.";
         }
         else
         {
             game.PlayerSplit();
             HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
             Message = "Split! Playing Hand #1.";
+
+            SetUi(UiState.InHand);
+            LoadScore();
+
+            var bank = StartBank();
+
+            var outcome = game.ResolveAfterPlayerStand();
+            SetUi(UiState.PostHand);
+
+            if (outcome is BlackjackGame.Outcome.PlayerBlackjack or BlackjackGame.Outcome.DealerBust or BlackjackGame.Outcome.PlayerWin)
+            {
+                AddToScore(game.ScoreForPlayerHands());
+            }
+
+            var net = BettingService.NetPayout(outcome, bank.CurrentBet);
+            bank.Bank += net;
+
+            //Clear bank
+            bank.CurrentBet = 0m;
+
+            //Set bank key
+            HttpContext.Session.SetJson(BankKey, bank);
+
+            PlayerHandText = game.CurrentPlayerHandText();
+            DealerHandText = game.DealerHandText(revealHole: true);
+
+            PlayerCardScore = game.PlayerHandTotal();
+            DealerCardScoreKnown = game.DealerHandTotalKnown();
+
+            CurrentPlayerCards = game.CurrentPlayerCards;
+            CurrentPlayerCardsB = game.CurrentPlayerCardsB;
+
+            DealerCards = game.DealerCards;
+            RevealDealerHole = true;
+
+            Bank = bank.Bank;
+
+            //Remove session key
+            HttpContext.Session.Remove(SessionKey);
         }
 
         RefreshView(game);
@@ -346,7 +431,7 @@ public class IndexModel : PageModel
 
         if (!game.PlayerHandDouble())
         {
-            Message = "You can’t double down on this hand.";
+            Message = "You can't double down on this hand.";
             RefreshView(game);
             return Page();
         }
@@ -358,20 +443,14 @@ public class IndexModel : PageModel
         if (game.PlayerDoubleDown())
         {
             var outcome = game.ResolveAfterPlayerStand();
-            HttpContext.Session.Remove(SessionKey);
 
             PlayerHandText = game.PlayerHandText(0);
             PlayerHandB = game.HasSecondHand ? game.PlayerHandText(1) : "";
             DealerHandText = game.DealerHandText(true);
             PlayerCardScore = game.PlayerHandValue(game.ActiveHandIndex);
-
+            
             //Double da money
             var net = BettingService.NetPayout(outcome, bank.CurrentBet);
-
-            //No blackjack after doibling down -- just a player win
-            if (outcome == BlackjackGame.Outcome.PlayerBlackjack && game.PlayerHandValue(0) > 2)
-                outcome = BlackjackGame.Outcome.PlayerWin;
-
             bank.Bank += net;
             bank.CurrentBet = 0;
             HttpContext.Session.SetJson(BankKey, bank);
@@ -380,14 +459,21 @@ public class IndexModel : PageModel
             CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
             DealerCards = game.DealerCards;
+
+            //No blackjack after doibling down -- just a player win
+            if (outcome == BlackjackGame.Outcome.PlayerBlackjack && game.PlayerHandValue(0) > 2)
+                outcome = BlackjackGame.Outcome.PlayerWin;
+
             
             Message = $"Doubled down! {outcome} | Net: {(net >= 0 ? "+" : "")}${net}";
             Bank = bank.Bank;
+
+            HttpContext.Session.Remove(SessionKey);
             return Page();
         }
 
         HttpContext.Session.SetJson(SessionKey, GameStateMapper.ToState(game));
-        Message = $"Doubled. Now playing Hand #{game.ActiveHandIndex + 1}.";
+        Message = $"Doubled.";
         RefreshView(game);
         return Page();
     }
@@ -405,14 +491,30 @@ public class IndexModel : PageModel
 
         CurrentPlayerCards = [];
         CurrentPlayerCardsB = [];
-        DealerCards= [];
+        DealerCards = [];
+        RevealDealerHole = false;
+
         PlayerHandText = "";
         DealerHandText = "";
         PlayerCardScore = null;
         Message = "New run started. You have $10.";
         SetUi(UiState.PreDeal);
+        LoadScore();
 
         return Page();
+    }
+    
+    private void LoadScore()
+    {
+        PlayerTotalScore = HttpContext.Session.GetInt32(ScoreKey) ?? 0;
+    }
+
+    private void AddToScore(int amount)
+    {
+        var current = HttpContext.Session.GetInt32(ScoreKey) ?? 0;
+        current += amount;
+        HttpContext.Session.SetInt32(ScoreKey, current);
+        PlayerTotalScore = current;
     }
     
     #region RefreshView
@@ -428,7 +530,8 @@ public class IndexModel : PageModel
         CurrentPlayerCards = game.CurrentPlayerCards;
         CurrentPlayerCardsB = game.CurrentPlayerCardsB;
 
-        DealerCards= game.DealerCards;
+        DealerCards = game.DealerCards;
+        
     }
 
     #endregion

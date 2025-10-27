@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Blackjack.ConsoleApp/1.0.0": {
+        "dependencies": {
+          "Blackjack.Core": "1.0.0"
+        },
+        "runtime": {
+          "Blackjack.ConsoleApp.dll": {}
+        }
+      },
+      "Blackjack.Core/1.0.0": {
+        "runtime": {
+          "Blackjack.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Blackjack.ConsoleApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Blackjack.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
