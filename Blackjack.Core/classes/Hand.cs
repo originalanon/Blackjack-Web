@@ -33,10 +33,14 @@ public sealed class Hand
         {
             int value = card.Rank.GetValue();
             total += value;
-            if (card.Rank == Rank.Ace) aces++;
+            
+            if (card.Rank == Rank.Ace)
+            {
+                aces++;  
+            } 
         }
 
-        // Try to count some aces as 11 (1 + 10)
+        //Try to count some aces as 11 (1 + 10)
         while (aces > 0 && total + 10 <= 21)
         {
             total += 10;

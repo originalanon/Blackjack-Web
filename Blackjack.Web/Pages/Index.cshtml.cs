@@ -357,6 +357,9 @@ public int PlayerTotalScore { get; private set; }
     public IActionResult OnPostPlayerSplit()
     {
         var state = HttpContext.Session.GetJson<GameState>(SessionKey);
+        SetUi(UiState.PostHand);
+
+
         if (state == null)
         {
             Message = "Error! Null state.";

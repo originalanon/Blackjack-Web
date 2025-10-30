@@ -1,5 +1,23 @@
 ﻿<Project>
   <ItemGroup>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\assets\bgm.mp3'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Blackjack.Web</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Blackjack.Web</BasePath>
+      <RelativePath>assets/bgm.mp3</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>as56kvonj4</Fingerprint>
+      <Integrity>Nu2s500k+fWpYbtwl9u3I0qXti556OZMUtGyG2Zty6M=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\assets\bgm.mp3'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\Blackjack.Web.ml2sx6vjj1.bundle.scp.css'))">
       <SourceType>Package</SourceType>
       <SourceId>Blackjack.Web</SourceId>
@@ -30,8 +48,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>8lwttq29px</Fingerprint>
-      <Integrity>PI8c7GGVCTI9hfgPDeanK69W8CpHuoOLVG+NQgptTnM=</Integrity>
+      <Fingerprint>0zmah4lexe</Fingerprint>
+      <Integrity>zKPSk5vFaP9HxHpPuYuJtYn6S8IG9b6ZMIuQB80Bg+Q=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\card.css'))</OriginalItemSpec>
@@ -48,8 +66,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>lugek5hnai</Fingerprint>
-      <Integrity>zeR5PHeeHbxfGkL8WV86OzdoF6UnjuCmnagaocD+cbo=</Integrity>
+      <Fingerprint>p7jex226bq</Fingerprint>
+      <Integrity>xQHUTQJdpYJFKIjDlFCI1X8KDqtO5qaSSeJFSoCP3pA=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</OriginalItemSpec>

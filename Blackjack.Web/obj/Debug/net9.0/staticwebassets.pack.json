@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets/Blackjack.Web.ml2sx6vjj1.bundle.scp.css"
     },
     {
+      "Id": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/assets/bgm.mp3",
+      "PackagePath": "staticwebassets/assets/bgm.mp3"
+    },
+    {
       "Id": "/home/lindsay/Documents/Repos/blackjack-web/Blackjack-Web/Blackjack.Web/wwwroot/css/card.css",
       "PackagePath": "staticwebassets/css/card.css"
     },
